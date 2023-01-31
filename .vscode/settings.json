@@ -46,5 +46,13 @@
   // Fill in the blank string here, which means not to set the value and use the default value to prevent users from writing the prettier configuration path globally, and the prettier of monorepo will not be able to read it
   "prettier.configPath": "",
   // Use workspace ts version
-  "typescript.tsdk": "node_modules/typescript/lib"
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "cSpell.words": [
+    "cssnano",
+    "preexport",
+    "prestart",
+    "tailwindcss",
+    "unoptimized"
+  ],
+  "css.lint.unknownAtRules": "ignore"
 }
