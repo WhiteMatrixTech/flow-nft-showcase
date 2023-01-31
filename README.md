@@ -1,1 +1,1 @@
-# flow grants template
+# flow grants nft template
