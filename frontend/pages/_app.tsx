@@ -1,6 +1,21 @@
-import "../styles/globals.css";
 import type { AppProps } from "next/app";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "react-loading-skeleton/dist/skeleton.css";
+import "../styles/globals.css";
 
+import Head from "next/head";
 export default function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
+  return (
+    <>
+      <Head>
+        <title>Flow NFT ShowCase</title>
+        <meta name="description" content="A showcase for flow nft" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <ToastContainer position="top-center" autoClose={3000} />
+      <Component {...pageProps} />
+    </>
+  );
 }

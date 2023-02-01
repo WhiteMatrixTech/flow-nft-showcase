@@ -48,10 +48,17 @@
   // Use workspace ts version
   "typescript.tsdk": "node_modules/typescript/lib",
   "cSpell.words": [
+    "Aptos",
+    "chainide",
     "cssnano",
+    "Dfinity",
+    "DSDS",
+    "fusd",
+    "Nervos",
     "preexport",
     "prestart",
     "tailwindcss",
+    "toastify",
     "unoptimized"
   ],
   "css.lint.unknownAtRules": "ignore"
