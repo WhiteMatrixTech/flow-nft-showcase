@@ -1,15 +1,46 @@
 import Image from "next/image";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 import logo from "../assets/images/chainide_shield.svg";
 import mintImg from "../assets/images/mint.png";
 import question from "../assets/images/question.svg";
 import silhouettePeople from "../assets/images/silhouette_people.svg";
 import silhouetteSplash from "../assets/images/silhouette_splash.svg";
+import { flowService } from "../wallet/services";
+import { useWallet } from "../wallet/store/useWallet";
 import { ChainsArea } from "./ChainsArea";
 
 export function Content() {
   const [amount, setAmount] = useState(1);
+  const { user } = useWallet();
+  const [isCollectionInit, setCollectionInit] = useState(false);
+
+  useEffect(() => {
+    if (user?.addr) {
+      flowService
+        .checkCollectionInit(user?.addr)
+        .then(setCollectionInit)
+        .catch(console.error);
+    }
+  }, [user?.addr]);
+
+  const handleMint = useCallback(async () => {
+    if (!user?.addr) return;
+    if (!isCollectionInit) {
+      try {
+        // init collection
+        const tx = await flowService.initCollection();
+        setCollectionInit(true);
+        // TODO: 执行mint
+      } catch (e) {
+        console.error(e);
+        toast.error("Mint failed!");
+      }
+    } else {
+      // TODO: 执行mint
+    }
+  }, [isCollectionInit, user?.addr]);
 
   const plusAmount = () => {
     setAmount(amount + 1);
@@ -98,6 +129,7 @@ export function Content() {
             alt="mint"
             role={"button"}
             className="w-[60%] ml-[20%] mt-[10%]"
+            onClick={handleMint}
           />
         </div>
       </div>

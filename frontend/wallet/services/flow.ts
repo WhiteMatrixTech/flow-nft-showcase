@@ -1,21 +1,31 @@
 import * as fcl from "@onflow/fcl";
 
+import { ContractInfo } from "../../utils/contractInfo";
+import { checkCollectionInitScript } from "../cadence/check_collection_init";
 import { getFusdBalanceScript } from "../cadence/get_fusd_balance";
+import { initCollectionTx } from "../cadence/init_collection";
 import { FclNetworkEnv } from "../constants";
 import { handleInteractData } from "../utils/codeHelper";
 
-fcl.config({
-  env: FclNetworkEnv.Testnet,
-  "accessNode.api": "https://rest-testnet.onflow.org", // Mainnet: "https://rest-mainnet.onflow.org/"
-  "discovery.wallet": "https://fcl-discovery.onflow.org/testnet/authn", // Mainnet: "https://fcl-discovery.onflow.org/authn"
-  "app.detail.title": "Flow NFT ShowCase",
-  "app.detail.icon": "https://developers.flow.com/favicon.ico",
-  "0xFUNGIBLE_TOKEN_ADDRESS": "0x9a0766d93b6608b7",
-  "0xFUSD_ADDRESS": "0xe223d8a629e49c68",
-  "0xFLOW_TOKEN_ADDRESS": "0x7e60df042a9c0868",
-});
-
 export class FlowService {
+  constructor() {
+    fcl.config({
+      env: FclNetworkEnv.Testnet,
+      "accessNode.api": "https://rest-testnet.onflow.org", // Mainnet: "https://rest-mainnet.onflow.org/"
+      "discovery.wallet": "https://fcl-discovery.onflow.org/testnet/authn", // Mainnet: "https://fcl-discovery.onflow.org/authn"
+      "app.detail.title": "Flow NFT ShowCase",
+      "app.detail.icon": "https://developers.flow.com/favicon.ico",
+      "0xFUNGIBLE_TOKEN_ADDRESS": "0x9a0766d93b6608b7", // Mainnet: "0xf233dcee88fe0abe"
+      "0xFUSD_ADDRESS": "0xe223d8a629e49c68", // Mainnet: "0x3c5959b568896393"
+      "0xFLOW_TOKEN_ADDRESS": "0x7e60df042a9c0868", // Mainnet: "0x1654653399040a61"
+      "0xNON_FUNGIBLE_TOKEN_ADDRESS": "0x631e88ae7f1d7c20", // Mainnet: "0x1d7e57aa55817448"
+      "0xMETADATA_VIEWS_ADDRESS": "0x631e88ae7f1d7c20", // Mainnet: "0x1d7e57aa55817448"
+      "0xNFT_ADDRESS": ContractInfo.deployer,
+      "0xNFT_NAME": ContractInfo.name,
+      "0xNFT_NAMECollectionPublic": `${ContractInfo.name}CollectionPublic`,
+    });
+  }
+
   login() {
     return fcl.authenticate();
   }
@@ -39,6 +49,14 @@ export class FlowService {
         resolve({ fusdBalance, flowBalance });
       });
     });
+  };
+
+  checkCollectionInit = async (address: string) => {
+    return await this.scriptInteract(checkCollectionInitScript, [address]);
+  };
+
+  initCollection = async () => {
+    return await this.transactionInteract(initCollectionTx, []);
   };
 
   getAccount = async (address: string): Promise<AccountObject> => {

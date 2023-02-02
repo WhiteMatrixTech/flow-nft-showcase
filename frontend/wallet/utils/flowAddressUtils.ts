@@ -32,6 +32,14 @@ class FlowAddressUtils {
       return prefixAddress.substring(0, 6) + "..." + prefixAddress.slice(-4);
     }
   }
+
+  getMatrixMarketNFTLink(contractAddress: string, tokenId: number) {
+    return `https://alpha-testnet--flow-market.netlify.app/collection/testnet_flow-${contractAddress}/${tokenId}`;
+  }
+
+  getMatrixMarketProfileLink(address: string) {
+    return `https://alpha-testnet--flow-market.netlify.app/account/testnet_flow-${address}`;
+  }
 }
 
 export const flowAddressUtils = new FlowAddressUtils();
