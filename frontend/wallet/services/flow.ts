@@ -8,6 +8,7 @@ fcl.config({
   "accessNode.api": "https://rest-testnet.onflow.org", // Mainnet: "https://rest-mainnet.onflow.org/"
   "discovery.wallet": "https://fcl-discovery.onflow.org/testnet/authn", // Mainnet: "https://fcl-discovery.onflow.org/authn"
   "app.detail.title": "Flow NFT ShowCase",
+  "app.detail.icon": "https://developers.flow.com/favicon.ico",
   "0xFUNGIBLE_TOKEN_ADDRESS": "0x9a0766d93b6608b7",
   "0xFUSD_ADDRESS": "0xe223d8a629e49c68",
   "0xFLOW_TOKEN_ADDRESS": "0x7e60df042a9c0868",

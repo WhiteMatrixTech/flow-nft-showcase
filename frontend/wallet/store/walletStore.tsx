@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useCallback, useEffect, useState } from "react";
+import React, { ReactNode, useCallback, useEffect, useState } from "react";
 import { flowService } from "../services";
 import * as fcl from "@onflow/fcl";
 
