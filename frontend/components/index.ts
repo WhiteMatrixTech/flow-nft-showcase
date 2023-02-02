@@ -1,1 +1,2 @@
-export * from "./ChainsArea";
+export * from "./Header";
+export * from "./Content";

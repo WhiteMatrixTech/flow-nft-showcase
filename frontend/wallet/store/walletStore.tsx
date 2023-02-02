@@ -1,8 +1,22 @@
-import { useCallback, useEffect, useState } from "react";
-import * as fcl from "@onflow/fcl";
+import React, { FC, ReactNode, useCallback, useEffect, useState } from "react";
 import { flowService } from "../services";
+import * as fcl from "@onflow/fcl";
 
-export function useWallet() {
+interface IWalletContext {
+  user: CurrentUserObject | undefined;
+  fusdBalance: number | undefined;
+  flowBalance: number | undefined;
+  isRefreshingBalance: boolean;
+  refreshBalance: () => void;
+  logOut: () => void;
+  logIn: () => void;
+}
+
+export const WalletContext = React.createContext<IWalletContext>({
+  isRefreshingBalance: false,
+} as IWalletContext);
+
+export const ContextProvider = (props: { children: ReactNode }) => {
   const [user, setUser] = useState<CurrentUserObject>();
   const [fusdBalance, setFusdBalance] = useState<number>();
   const [flowBalance, setFlowBalance] = useState<number>();
@@ -37,13 +51,20 @@ export function useWallet() {
   useEffect(() => {
     logIn();
   }, [logIn]);
-  return {
-    user,
-    fusdBalance,
-    flowBalance,
-    isRefreshingBalance,
-    refreshBalance,
-    logOut,
-    logIn,
-  };
-}
+
+  return (
+    <WalletContext.Provider
+      value={{
+        user,
+        fusdBalance,
+        flowBalance,
+        isRefreshingBalance,
+        refreshBalance,
+        logIn,
+        logOut,
+      }}
+    >
+      {props.children}
+    </WalletContext.Provider>
+  );
+};

@@ -5,9 +5,10 @@ import "react-loading-skeleton/dist/skeleton.css";
 import "../styles/globals.css";
 
 import Head from "next/head";
+import { ContextProvider } from "../wallet/store/walletStore";
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <>
+    <ContextProvider>
       <Head>
         <title>Flow NFT ShowCase</title>
         <meta name="description" content="A showcase for flow nft" />
@@ -16,6 +17,6 @@ export default function App({ Component, pageProps }: AppProps) {
       </Head>
       <ToastContainer position="top-center" autoClose={3000} />
       <Component {...pageProps} />
-    </>
+    </ContextProvider>
   );
 }
