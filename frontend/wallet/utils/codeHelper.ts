@@ -1,12 +1,13 @@
 import * as fcl from "@onflow/fcl";
-import * as t from "@onflow/types";
 import {
-  mapArguments,
-  splitArgs,
-  getTemplateInfo,
   extractScriptArguments,
   extractTransactionArguments,
+  getTemplateInfo,
+  mapArguments,
+  splitArgs,
 } from "@onflow/flow-cadut";
+import * as t from "@onflow/types";
+
 import { CADENCE_CODE_TYPE } from "../constants";
 
 const parseUnhandledCode = (code: string) => {
@@ -165,7 +166,7 @@ const handleInteractData = async (
 
 export {
   decodeCadenceCode,
-  handleOriginInputArgs,
   handleDeployData,
   handleInteractData,
+  handleOriginInputArgs,
 };

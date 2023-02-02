@@ -1,4 +1,5 @@
 import * as fcl from "@onflow/fcl";
+
 import { getFusdBalanceScript } from "../cadence/get_fusd_balance";
 import { FclNetworkEnv } from "../constants";
 import { handleInteractData } from "../utils/codeHelper";

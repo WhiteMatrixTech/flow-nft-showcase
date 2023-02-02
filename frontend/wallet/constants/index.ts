@@ -19,4 +19,4 @@ const FlowNetScan = {
   [FclNetworkEnv.Local]: "",
 };
 
-export { FclNetworkEnv, CADENCE_CODE_TYPE, FlowNetScan };
+export { CADENCE_CODE_TYPE, FclNetworkEnv, FlowNetScan };

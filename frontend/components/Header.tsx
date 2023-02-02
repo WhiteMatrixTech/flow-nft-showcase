@@ -1,16 +1,17 @@
-import Image from "next/image";
-import { useClickAway } from "react-use";
-import userLogo from "../assets/images/user.svg";
-import logoutImg from "../assets/images/log_out.svg";
-import copyImg from "../assets/images/copy.svg";
-import refresh from "../assets/images/refresh.svg";
-import copy from "copy-to-clipboard";
-import { toast } from "react-toastify";
-import { useRef, useState } from "react";
-import { flowAddressUtils } from "../wallet/utils/flowAddressUtils";
 import cn from "classnames";
+import copy from "copy-to-clipboard";
+import Image from "next/image";
+import { useRef, useState } from "react";
 import Skeleton from "react-loading-skeleton";
+import { toast } from "react-toastify";
+import { useClickAway } from "react-use";
+
+import copyImg from "../assets/images/copy.svg";
+import logoutImg from "../assets/images/log_out.svg";
+import refresh from "../assets/images/refresh.svg";
+import userLogo from "../assets/images/user.svg";
 import { useWallet } from "../wallet/store/useWallet";
+import { flowAddressUtils } from "../wallet/utils/flowAddressUtils";
 
 export function Header() {
   const [showAccountDetail, setShowAccountDetail] = useState(false);

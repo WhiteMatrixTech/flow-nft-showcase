@@ -1,13 +1,15 @@
-import chainEthereumLogo from "../assets/images/chains/ethereum.png";
+import cn from "classnames";
+
+import chainAptosLogo from "../assets/images/chains/aptos.svg";
 import chainBinanceLogo from "../assets/images/chains/binance.png";
 import chainConfluxLogo from "../assets/images/chains/conflux.png";
 import chainDfinityLogo from "../assets/images/chains/dfinity.png";
+import chainEthereumLogo from "../assets/images/chains/ethereum.png";
+import chainFlowLogo from "../assets/images/chains/flow.png";
 import chainNervosLogo from "../assets/images/chains/nervos.png";
 import chainPolygonLogo from "../assets/images/chains/polygon.svg";
-import chainFlowLogo from "../assets/images/chains/flow.png";
-import chainAptosLogo from "../assets/images/chains/aptos.svg";
 import { ChainButton, IChain } from "./ChainButton";
-import cn from "classnames";
+
 const chains: IChain[] = [
   {
     name: "Ethereum",

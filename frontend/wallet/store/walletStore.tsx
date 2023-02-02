@@ -1,6 +1,7 @@
-import React, { ReactNode, useCallback, useEffect, useState } from "react";
-import { flowService } from "../services";
 import * as fcl from "@onflow/fcl";
+import React, { ReactNode, useCallback, useEffect, useState } from "react";
+
+import { flowService } from "../services";
 
 interface IWalletContext {
   user: CurrentUserObject | undefined;

@@ -1,10 +1,11 @@
 import Image from "next/image";
-import logo from "../assets/images/chainide_shield.svg";
-import silhouetteSplash from "../assets/images/silhouette_splash.svg";
-import silhouettePeople from "../assets/images/silhouette_people.svg";
-import question from "../assets/images/question.svg";
-import mintImg from "../assets/images/mint.png";
 import { useState } from "react";
+
+import logo from "../assets/images/chainide_shield.svg";
+import mintImg from "../assets/images/mint.png";
+import question from "../assets/images/question.svg";
+import silhouettePeople from "../assets/images/silhouette_people.svg";
+import silhouetteSplash from "../assets/images/silhouette_splash.svg";
 import { ChainsArea } from "./ChainsArea";
 
 export function Content() {
