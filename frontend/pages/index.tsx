@@ -1,9 +1,10 @@
 import Image from "next/image";
 import { useClickAway } from "react-use";
-import user from "../assets/images/user.svg";
+import userLogo from "../assets/images/user.svg";
 import logo from "../assets/images/chainide_shield.svg";
 import silhouetteSplash from "../assets/images/silhouette_splash.svg";
 import silhouettePeople from "../assets/images/silhouette_people.svg";
+import logoutImg from "../assets/images/log_out.svg";
 import question from "../assets/images/question.svg";
 import mintImg from "../assets/images/mint.png";
 import copyImg from "../assets/images/copy.svg";
@@ -11,26 +12,32 @@ import refresh from "../assets/images/refresh.svg";
 import { ChainsArea } from "../components";
 import copy from "copy-to-clipboard";
 import { toast } from "react-toastify";
-import { useRef, useState } from "react";
-import { flowAddressUtils } from "../utils/flowAddressUtils";
+import { useCallback, useRef, useState } from "react";
+import { flowAddressUtils } from "../wallet/utils/flowAddressUtils";
 import cn from "classnames";
 import Skeleton from "react-loading-skeleton";
+import { useWallet } from "../wallet/hooks/useWallet";
 
 export default function Home() {
-  const [address, setAddress] = useState("0xa1a4aae1aa9dd8a9");
-  const [flowBalance, setFlowBalance] = useState<number>(0.014);
-  const [fusdBalance, setFusdBalance] = useState<number>(21.029);
-  const [isRefreshingBalance, setRefreshingBalance] = useState(false);
   const [amount, setAmount] = useState(1);
   const [showAccountDetail, setShowAccountDetail] = useState(false);
+  const {
+    user,
+    fusdBalance,
+    flowBalance,
+    isRefreshingBalance,
+    refreshBalance,
+    logOut,
+    logIn,
+  } = useWallet();
   const accountRef = useRef(null);
   useClickAway(accountRef, () => {
     setShowAccountDetail(false);
   });
 
-  function plusAmount() {
+  const plusAmount = () => {
     setAmount(amount + 1);
-  }
+  };
 
   function minusAmount() {
     if (amount === 1) {
@@ -40,7 +47,7 @@ export default function Home() {
   }
 
   function handleCopy() {
-    if (copy(address)) {
+    if (copy(user?.addr || "")) {
       toast.success("Copied!");
     }
   }
@@ -49,11 +56,7 @@ export default function Home() {
     if (isRefreshingBalance) {
       return;
     }
-    // TODO: mock refresh balance
-    setRefreshingBalance(true);
-    setTimeout(() => {
-      setRefreshingBalance(false);
-    }, 3000);
+    refreshBalance();
   }
 
   return (
@@ -66,11 +69,16 @@ export default function Home() {
         {/* account logo */}
         <Image
           alt="user"
-          src={user}
+          src={userLogo}
           className="w-[21px] cursor-pointer"
+          onMouseEnter={() => {
+            if (user?.addr) {
+              setShowAccountDetail(true);
+            }
+          }}
           onClick={() => {
-            if (!address) {
-              // TODO: show login modal
+            if (!user?.addr) {
+              logIn();
             } else {
               setShowAccountDetail(!showAccountDetail);
             }
@@ -78,11 +86,11 @@ export default function Home() {
         />
         {/* account detail */}
         {showAccountDetail && (
-          <div className="shadow-lg px-2 py-[10px] absolute w-[182px] h-[205px] rounded-2xl bg-themeColor -right-2 top-[39px]">
+          <div className="shadow-lg px-2 py-[10px] absolute w-[182px] h-[230px] rounded-2xl bg-themeColor -right-2 top-[39px]">
             {/* address */}
             <div className="flex items-center justify-between text-secondaryBlack text-[13px] leading-4 font-bold">
               <span className="uppercase">
-                {flowAddressUtils.abbrAddress(address)}
+                {flowAddressUtils.abbrAddress(user?.addr || "")}
               </span>
               <Image
                 src={copyImg}
@@ -116,7 +124,7 @@ export default function Home() {
                   <Skeleton className="w-20 h-5" count={1} />
                 ) : (
                   <span className="text-[20px] leading-[23px] font-bold">
-                    {flowBalance}
+                    {flowBalance === undefined ? "" : flowBalance.toFixed(2)}
                   </span>
                 )}
               </div>
@@ -129,7 +137,7 @@ export default function Home() {
                   <Skeleton className="w-20 h-5" count={1} />
                 ) : (
                   <span className="text-[20px] leading-[23px] font-bold">
-                    {fusdBalance}
+                    {fusdBalance === undefined ? "" : fusdBalance.toFixed(2)}
                   </span>
                 )}
               </div>
@@ -138,12 +146,23 @@ export default function Home() {
                 href="https://testnet-faucet-v2.onflow.org/fund-account"
                 target="_blank"
                 className="block w-full"
+                rel="noreferrer"
               >
                 <button className="font-bold text-primaryBlack text-sm w-full h-[30px] rounded-lg leading-[21px] text-center bg-themeColor mt-[10px]">
                   Add Funds
                 </button>
               </a>
             </div>
+            {/* sign out button */}
+            <button
+              className="w-full h-[15px] mt-[10px] flex items-center justify-center"
+              onClick={logOut}
+            >
+              <Image alt="sign out" src={logoutImg} className="w-3 mr-[7px]" />
+              <span className="text-primaryBlack text-[12px] leading-[15px] font-bold">
+                Sign Out
+              </span>
+            </button>
           </div>
         )}
       </div>

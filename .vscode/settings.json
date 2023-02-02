@@ -55,11 +55,14 @@
     "DSDS",
     "fusd",
     "Nervos",
+    "onflow",
     "preexport",
     "prestart",
     "tailwindcss",
     "toastify",
-    "unoptimized"
+    "unauthenticate",
+    "unoptimized",
+    "xform"
   ],
   "css.lint.unknownAtRules": "ignore"
 }
