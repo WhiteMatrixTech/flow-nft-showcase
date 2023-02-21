@@ -1,0 +1,13 @@
+{
+  "name": "chainide-shield-nft",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "emulater": "flow emulator",
+    "deploy:testnet": "flow deploy --network testnet",
+    "mint:testnet": "flow transactions send ./transactions/payment_mint.cdc 1 --signer testnet-mint --network testnet",
+    "querytotal:testnet": "flow scripts execute ./scripts/get_total_supply.cdc --network testnet",
+    "querymax:testnet": "flow scripts execute ./scripts/get_max_supply.cdc --network testnet"
+  }
+}
