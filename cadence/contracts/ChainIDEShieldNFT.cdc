@@ -1,5 +1,5 @@
-import NonFungibleToken from "./NonFungibleToken.cdc"
-import MetadataViews from "./MetadataViews.cdc"
+import NonFungibleToken from 0x631e88ae7f1d7c20
+import MetadataViews from 0x631e88ae7f1d7c20
 
 pub contract ChainIDEShieldNFT: NonFungibleToken {
 
@@ -23,12 +23,12 @@ pub contract ChainIDEShieldNFT: NonFungibleToken {
     pub let CollectionPublicPath: PublicPath
     pub let MinterStoragePath: StoragePath
 
-    /// The core resource that represents a Non Fungible Token. 
+    /// The core resource that represents a Non Fungible Token.
     /// New instances will be created using the NFTMinter resource
     /// and stored in the Collection resource
     ///
     pub resource NFT: NonFungibleToken.INFT, MetadataViews.Resolver {
-        
+
         /// The unique ID that each NFT has
         pub let id: UInt64
         pub let type: String
@@ -37,7 +37,7 @@ pub contract ChainIDEShieldNFT: NonFungibleToken {
 
         /// Metadata fields
         access(self) let metadata: {String: AnyStruct}
-    
+
         init(
             id: UInt64,
             type: String,
@@ -137,7 +137,7 @@ pub contract ChainIDEShieldNFT: NonFungibleToken {
                     let typeTraitRarity = MetadataViews.Rarity(score: 10.0, max: 100.0, description: "Common")
                     let typeTrait = MetadataViews.Trait(name: "type", value: self.metadata["type"], displayType: nil, rarity: typeTraitRarity)
                     traitsView.addTrait(typeTrait)
-                    
+
                     return traitsView
 
             }
@@ -188,7 +188,7 @@ pub contract ChainIDEShieldNFT: NonFungibleToken {
         /// Adds an NFT to the collections dictionary and adds the ID to the id array
         ///
         /// @param token: The NFT resource to be included in the collection
-        /// 
+        ///
         pub fun deposit(token: @NonFungibleToken.NFT) {
             let token <- token as! @ChainIDEShieldNFT.NFT
 
@@ -210,7 +210,7 @@ pub contract ChainIDEShieldNFT: NonFungibleToken {
             return self.ownedNFTs.keys
         }
 
-        /// Gets a reference to an NFT in the collection so that 
+        /// Gets a reference to an NFT in the collection so that
         /// the caller can read its metadata and call its methods
         ///
         /// @param id: The ID of the wanted NFT
@@ -219,13 +219,13 @@ pub contract ChainIDEShieldNFT: NonFungibleToken {
         pub fun borrowNFT(id: UInt64): &NonFungibleToken.NFT {
             return (&self.ownedNFTs[id] as &NonFungibleToken.NFT?)!
         }
- 
-        /// Gets a reference to an NFT in the collection so that 
+
+        /// Gets a reference to an NFT in the collection so that
         /// the caller can read its metadata and call its methods
         ///
         /// @param id: The ID of the wanted NFT
         /// @return A reference to the wanted NFT resource
-        ///        
+        ///
         pub fun borrowChainIDEShieldNFT(id: UInt64): &ChainIDEShieldNFT.NFT? {
             if self.ownedNFTs[id] != nil {
                 // Create an authorized reference to allow downcasting
@@ -242,7 +242,7 @@ pub contract ChainIDEShieldNFT: NonFungibleToken {
         ///
         /// @param id: The ID of the wanted NFT
         /// @return The resource reference conforming to the Resolver interface
-        /// 
+        ///
         pub fun borrowViewResolver(id: UInt64): &AnyResource{MetadataViews.Resolver} {
             let nft = (&self.ownedNFTs[id] as auth &NonFungibleToken.NFT?)!
             let ChainIDEShieldNFT = nft as! &ChainIDEShieldNFT.NFT
@@ -272,8 +272,8 @@ pub contract ChainIDEShieldNFT: NonFungibleToken {
         ///
         /// @param recipient: A capability to the collection where the new NFT will be deposited
         /// @param type: The type for the NFT metadata
-        /// @param royalties: An array of Royalty structs, see MetadataViews docs 
-        ///     
+        /// @param royalties: An array of Royalty structs, see MetadataViews docs
+        ///
         pub fun mintNFT(
             recipient: &{NonFungibleToken.CollectionPublic},
             type: String,

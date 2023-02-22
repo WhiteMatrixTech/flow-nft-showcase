@@ -1,6 +1,7 @@
-import ChainIDEShieldNFTMintContract from "../contracts/ChainIDEShieldNFTMintContract.cdc"
-import FlowToken from "../contracts/FlowToken.cdc"
-import FungibleToken from "../contracts/utility/FungibleToken.cdc"
+// TODO: change to your account which deploy ChainIDEShieldNFTMintContract
+import ChainIDEShieldNFTMintContract from 0x5c37baab150cfdaa
+import FlowToken from 0x7e60df042a9c0868
+import FungibleToken from 0x9a0766d93b6608b7
 
 transaction(
     price: UFix64,
@@ -17,4 +18,3 @@ transaction(
     }
 
 }
- 

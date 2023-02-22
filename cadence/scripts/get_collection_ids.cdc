@@ -1,5 +1,6 @@
- import NonFungibleToken from "../contracts/NonFungibleToken.cdc"
- import ChainIDEShieldNFT from "../contracts/ChainIDEShieldNFT.cdc"
+import NonFungibleToken from 0x631e88ae7f1d7c20
+// TODO: change to your account which deploy ChainIDEShildNFT
+import ChainIDEShieldNFT from 0x5c37baab150cfdaa
 
 /// Script to get NFT IDs in an account's collection
 pub fun main(address: Address): [UInt64] {

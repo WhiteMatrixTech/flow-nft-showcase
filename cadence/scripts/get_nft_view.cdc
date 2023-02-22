@@ -1,5 +1,6 @@
-import ChainIDEShieldNFT from "../contracts/ChainIDEShieldNFT.cdc"
-import MetadataViews from "../contracts/MetadataViews.cdc"
+// TODO: change to your account which deploy ChainIDEShildNFT
+import ChainIDEShieldNFT from 0x5c37baab150cfdaa
+import MetadataViews from 0x631e88ae7f1d7c20
 
 pub struct NFTView {
     pub let id: UInt64

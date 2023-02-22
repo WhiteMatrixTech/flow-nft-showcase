@@ -1,8 +1,10 @@
- import NonFungibleToken from "../contracts/NonFungibleToken.cdc"
- import ChainIDEShieldNFTMintContract from "../contracts/ChainIDEShieldNFTMintContract.cdc"
- import ChainIDEShieldNFT from "../contracts/ChainIDEShieldNFT.cdc"
-import MetadataViews from "../contracts/MetadataViews.cdc"
-import FlowToken from "../contracts/FlowToken.cdc"
+// TODO: change to your account which deploy ChainIDEShildNFT & ChainIDEShieldNFTMintContract
+import ChainIDEShieldNFT from 0x5c37baab150cfdaa
+import ChainIDEShieldNFTMintContract from 0x5c37baab150cfdaa
+import MetadataViews from 0x631e88ae7f1d7c20
+import FlowToken from 0x7e60df042a9c0868
+import NonFungibleToken from 0x631e88ae7f1d7c20
+
 
 transaction(
     amount: Int
@@ -11,11 +13,11 @@ transaction(
     let flowTokenRef: &FlowToken.Vault
     /// Reference to the receiver's collection
     let recipientCollectionRef: &{NonFungibleToken.CollectionPublic}
-    
+
     prepare(signer: AuthAccount) {
 
         self.flowTokenRef = signer.borrow<&FlowToken.Vault>(from: /storage/flowTokenVault)?? panic("Could not get value reference of Flow Token")
-        
+
 
         if signer.borrow<&ChainIDEShieldNFT.collection>(from: ChainIDEShieldNFT.CollectionStoragePath) == nil {
             signer.save( <-ChainIDEShieldNFT.createEmptyCollection(), to: ChainIDEShieldNFT.CollectionStoragePath)
@@ -35,4 +37,3 @@ transaction(
     }
 
 }
- 

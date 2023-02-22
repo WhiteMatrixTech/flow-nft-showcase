@@ -1,7 +1,8 @@
-import NonFungibleToken from "./NonFungibleToken.cdc"
-import FungibleToken from "./utility/FungibleToken.cdc"
-import MetadataViews from "./MetadataViews.cdc"
-import ChainIDEShieldNFT from "./ChainIDEShieldNFT.cdc"
+import NonFungibleToken from 0x631e88ae7f1d7c20
+import FungibleToken from 0x9a0766d93b6608b7
+import MetadataViews from 0x631e88ae7f1d7c20
+// TODO: change to your account which deploy ChainIDEShildNFT
+import ChainIDEShieldNFT from 0x5c37baab150cfdaa
 
 pub contract ChainIDEShieldNFTMintContract {
 
@@ -36,8 +37,8 @@ pub contract ChainIDEShieldNFTMintContract {
             minter.mintNFT(recipient: recipient, type: types[index % 4])
             index = index + 1
         }
-    } 
-    
+    }
+
     pub resource Administrator {
         pub fun setSale(price: UFix64, receiver: Address){
             ChainIDEShieldNFTMintContract.sale = Sale(price: price, receiver: receiver)
@@ -50,4 +51,3 @@ pub contract ChainIDEShieldNFTMintContract {
         self.account.save(<- create Administrator(), to: self.AdminStoragePath)
     }
 }
- 

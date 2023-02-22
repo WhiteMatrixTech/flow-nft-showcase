@@ -1,5 +1,6 @@
-import ChainIDEShieldNFT from "../contracts/ChainIDEShieldNFT.cdc"
-import MetadataViews from "../contracts/MetadataViews.cdc"
+// TODO: change to your account which deploy ChainIDEShildNFT
+import ChainIDEShieldNFT from 0x5c37baab150cfdaa
+import MetadataViews from 0x631e88ae7f1d7c20
 
 /// This script gets all the view-based metadata associated with the specified NFT
 /// and returns it as a single struct
@@ -105,7 +106,7 @@ pub fun main(address: Address, id: UInt64): NFT {
 
     let nftEditionView = MetadataViews.getEditions(nft)!
     let serialNumberView = MetadataViews.getSerial(nft)!
-    
+
     let owner: Address = nft.owner!.address!
     let nftType = nft.getType()
 
