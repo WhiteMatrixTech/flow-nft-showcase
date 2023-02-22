@@ -311,9 +311,9 @@ pub contract ChainIDEShieldNFT: NonFungibleToken {
         self.maxSupply = _maxSupply
 
         // Set the named paths
-        self.CollectionStoragePath = StoragePath("ChainIDEShieldNFTCollection")
-        self.CollectionPublicPath = PublicPath("ChainIDEShieldNFTCollection")
-        self.MinterStoragePath = StoragePath("ChainIDEShieldNFTMinter")
+        self.CollectionStoragePath = /storage/ChainIDEShieldNFTCollection
+        self.CollectionPublicPath = /public/ChainIDEShieldNFTCollection
+        self.MinterStoragePath = /storage/ChainIDEShieldNFTMinter
 
         // Create a Collection resource and save it to storage
         let collection <- create Collection()
