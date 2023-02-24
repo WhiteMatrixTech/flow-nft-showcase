@@ -47,7 +47,7 @@ pub contract ChainIDEShieldNFTMintContract {
 
     init(price: UFix64, receiver: Address) {
         self.sale = Sale(price: price, receiver: receiver)
-        self.AdminStoragePath = /storage/FlowNiaPresaleAdmin
+        self.AdminStoragePath = /storage/ChainIDEShieldNFTMintAdmin
         self.account.save(<- create Administrator(), to: self.AdminStoragePath)
     }
 }
