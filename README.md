@@ -6,7 +6,7 @@
 
 ## 使用方法
 
-1、登录`ChainIDE`并且`Github`克隆项目`https://github.com/WhiteMatrixTech/flow-nft-showcase.git`
+1、登录`ChainIDE`并且`Github`克隆项目 https://github.com/WhiteMatrixTech/flow-nft-showcase.git
 ![image](https://user-images.githubusercontent.com/66669483/221499424-ba807623-7679-4787-a9e2-8a194bc31163.png)
 
 2、打开克隆后的项目，打开右侧的的面板，登录`Testnet`
