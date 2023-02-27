@@ -30,7 +30,9 @@
 ![image](https://user-images.githubusercontent.com/66669483/221507031-167bc9af-e5a2-42d0-89c3-9d4e3dfe47b0.png)
 
 8、添加成功后，表格里会多一条3000端口的记录，点击图示按钮，用浏览器打开
+
 ![image](https://user-images.githubusercontent.com/66669483/221507321-d17a7331-2f7b-46a5-8ccd-2f3ba3175ab5.png)
+
 浏览器会打开如下页面
 ![image](https://user-images.githubusercontent.com/66669483/221507487-fc150e56-93aa-494b-821d-51dd0829dde5.png)
 
