@@ -40,7 +40,7 @@
 浏览器会打开如下页面
 ![image](https://user-images.githubusercontent.com/66669483/221507487-fc150e56-93aa-494b-821d-51dd0829dde5.png)
 
-5、由于前端实际上是在`terminal`环境内，因此只能使用`blocto`钱包登录，这里切换一个另一个钱包地址登录，登录成功后可以看到价格和供应量从合约中读取成功
+5、由于前端实际上是在`terminal`环境内，因此只能使用`blocto`钱包登录，这里切换另一个钱包地址登录，登录成功后可以看到价格和供应量从合约中读取成功
 ![image](https://user-images.githubusercontent.com/66669483/221508267-41a33a69-f143-4f7f-900b-28dd76b83757.png)
 
 6、点击执行`mint`，如果钱包`Flow`余额不足，可以从 https://testnet-faucet-v2.onflow.org/fund-account 中获取测试代币
