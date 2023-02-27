@@ -997,7 +997,7 @@ chokidar@^3.5.3:
   optionalDependencies:
     fsevents "~2.3.2"
 
-classnames@^2.3.2:
+classnames@^2.2.6, classnames@^2.3.2:
   version "2.3.2"
   resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.3.2.tgz#351d813bf0137fcc6a76a16b88208d2560a0d924"
   integrity sha512-CSbhY4cFEJRe6/GQzIk5qXZ4Jeg5pcsP7b5peFSDpffpe1cqjASH/n9UTjBwOp6XpMSTwQ8Za2K5V02ueA7Tmw==
@@ -3439,7 +3439,7 @@ promptly@^2:
   dependencies:
     read "^1.0.4"
 
-prop-types@^15.8.1:
+prop-types@^15.6.0, prop-types@^15.8.1:
   version "15.8.1"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -3697,6 +3697,14 @@ rlp@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/rlp/-/rlp-3.0.0.tgz#5a60725ca4314a3a165feecca1836e4f2c1e2343"
   integrity sha512-PD6U2PGk6Vq2spfgiWZdomLvRGDreBLxi5jv5M8EpRo3pU6VEm31KO+HFxE18Q3vgqfDrQ9pZA3FP95rkijNKw==
+
+rodal@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/rodal/-/rodal-2.0.1.tgz#87309fe371c1efe9190f95e4a77cfab65609e97f"
+  integrity sha512-nb+Zn8TcIvRVNr3r4gJUd+zzxhkL3rEXu+npudvT/wJ0ukPhpMLCgQsUwhj9Kh2Via1uZrf3cQZMNiqt6n0i2g==
+  dependencies:
+    classnames "^2.2.6"
+    prop-types "^15.6.0"
 
 rtl-css-js@^1.14.0:
   version "1.16.1"

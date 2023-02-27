@@ -1,5 +1,5 @@
 // TODO: change to your account which deploy ChainIDEShildNFT
-import ChainIDEShieldNFT from 0x5c37baab150cfdaa
+import ChainIDEShieldNFT from 0x119dff553c54ffcc
 import MetadataViews from 0x631e88ae7f1d7c20
 
 pub struct NFTView {

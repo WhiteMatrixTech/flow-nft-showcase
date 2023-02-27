@@ -18,6 +18,11 @@ pub contract ChainIDEShieldNFT: NonFungibleToken {
     /// The event that is emitted when an NFT is deposited to a Collection
     pub event Deposit(id: UInt64, to: Address?)
 
+    // Collection name
+    pub let CollectionName: String
+    // Collection description
+    pub let CollectionDesc: String
+
     /// Storage and Public Paths
     pub let CollectionStoragePath: StoragePath
     pub let CollectionPublicPath: PublicPath
@@ -115,8 +120,8 @@ pub contract ChainIDEShieldNFT: NonFungibleToken {
                         mediaType: "image/jpg"
                     )
                     return MetadataViews.NFTCollectionDisplay(
-                        name: "The ChainIDE Shield NFT Collection",
-                        description: "This collection is used as an example to help you develop your next Flow NFT.",
+                        name: ChainIDEShieldNFT.CollectionName,
+                        description: ChainIDEShieldNFT.CollectionDesc,
                         externalURL: MetadataViews.ExternalURL("https://chainide.com"),
                         squareImage: media,
                         bannerImage: media,
@@ -309,6 +314,10 @@ pub contract ChainIDEShieldNFT: NonFungibleToken {
         self.totalSupply = 0
 
         self.maxSupply = _maxSupply
+
+        // Set collection name and description
+        self.CollectionName = "ChainIDE Shield NFT"
+        self.CollectionDesc = "ChainIDE is a cloud-based IDE for creating decentralized applications to deploy on blockchains."
 
         // Set the named paths
         self.CollectionStoragePath = /storage/ChainIDEShieldNFTCollection

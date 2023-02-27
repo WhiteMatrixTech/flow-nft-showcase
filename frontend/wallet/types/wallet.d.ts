@@ -5,6 +5,28 @@ interface ArgumentObject {
   xform: any;
 }
 
+interface NFTSaleDetail {
+  maxSupply: number;
+  price: number;
+  left: number;
+}
+
+interface NFTMetadata {
+  name: string;
+  description: string;
+  thumbnail: string;
+  owner: string;
+  type: string;
+  serialNumber: number;
+  traits: {
+    traits: Array<{
+      name: "minter" | "mintedBlock" | "mintedTime" | "type" | string;
+      value: string;
+    }>;
+  };
+  [key: string]: unknown;
+}
+
 interface CommonConfigs {
   "accessNode.api": string;
   "discovery.wallet": string;
@@ -69,6 +91,7 @@ interface TransactionState {
     type: string | "flow.AccountContractAdded" | "flow.AccountContractUpdated";
     data?: {
       address: string;
+      [key: string]: unknown;
     };
   }>;
 }
@@ -157,4 +180,32 @@ declare module "@onflow/flow-cadut" {
     schema: string[],
     values: any[]
   ): Promise<ArgumentObject[]>;
+}
+
+declare module "rodal" {
+  import { MouseEventHandler, ReactNode } from "react";
+
+  type RodalProps = {
+    children?: ReactNode;
+    width?: number;
+    height?: number;
+    measure?: string;
+    visible?: boolean;
+    showMask?: boolean;
+    closeOnEsc?: boolean;
+    closeMaskOnClick?: boolean;
+    showCloseButton?: boolean;
+    animation?: string;
+    enterAnimation?: string;
+    leaveAnimation?: string;
+    duration?: number;
+    className?: string;
+    customStyles?: { [key: string]: any };
+    customMaskStyles?: { [key: string]: any };
+    onClose?: MouseEventHandler<HTMLSpanElement>;
+    onAnimationEnd?: () => never;
+  };
+
+  const Rodal = (_: RodalProps): JSX.Element => {};
+  export = Rodal;
 }

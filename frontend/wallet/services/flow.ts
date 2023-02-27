@@ -1,9 +1,10 @@
 import * as fcl from "@onflow/fcl";
 
-import { ContractInfo } from "../../utils/contractInfo";
-import { checkCollectionInitScript } from "../cadence/check_collection_init";
+import { ContractInfo } from "../../config";
+import { checkOwnNftsTransaction } from "../cadence/check_own_nfts";
+import { getCollectionSaleDetailScript } from "../cadence/get_collection_sale_detail";
 import { getFusdBalanceScript } from "../cadence/get_fusd_balance";
-import { initCollectionTx } from "../cadence/init_collection";
+import { mintNftsTransaction } from "../cadence/mint_nfts";
 import { FclNetworkEnv } from "../constants";
 import { handleInteractData } from "../utils/codeHelper";
 
@@ -23,6 +24,7 @@ export class FlowService {
       "0xNFT_ADDRESS": ContractInfo.deployer,
       "0xNFT_NAME": ContractInfo.name,
       "0xNFT_NAMECollectionPublic": `${ContractInfo.name}CollectionPublic`,
+      "0xNFT_MINTER_NAME": ContractInfo.minterName,
     });
   }
 
@@ -51,12 +53,16 @@ export class FlowService {
     });
   };
 
-  checkCollectionInit = async (address: string) => {
-    return await this.scriptInteract(checkCollectionInitScript, [address]);
+  getCollectionSaleDetail = async (): Promise<NFTSaleDetail> => {
+    return this.scriptInteract(getCollectionSaleDetailScript, []);
   };
 
-  initCollection = async () => {
-    return await this.transactionInteract(initCollectionTx, []);
+  mintNfts = async (amount: number) => {
+    return this.transactionInteract(mintNftsTransaction, [amount]);
+  };
+
+  getOwnNfts = async (address: string): Promise<Array<NFTMetadata>> => {
+    return this.scriptInteract(checkOwnNftsTransaction, [address]);
   };
 
   getAccount = async (address: string): Promise<AccountObject> => {
@@ -89,7 +95,7 @@ export class FlowService {
       return;
     }
 
-    const executedTransaction = await fcl.tx(response).onceExecuted();
+    const executedTransaction = await fcl.tx(response).onceSealed();
     const transactionReceipt = {
       ...executedTransaction,
       transactionId: response.transactionId,

@@ -2,7 +2,7 @@ import NonFungibleToken from 0x631e88ae7f1d7c20
 import FungibleToken from 0x9a0766d93b6608b7
 import MetadataViews from 0x631e88ae7f1d7c20
 // TODO: change to your account which deploy ChainIDEShildNFT
-import ChainIDEShieldNFT from 0x5c37baab150cfdaa
+import ChainIDEShieldNFT from 0x119dff553c54ffcc
 
 pub contract ChainIDEShieldNFTMintContract {
 

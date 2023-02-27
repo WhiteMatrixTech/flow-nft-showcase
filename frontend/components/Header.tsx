@@ -116,7 +116,7 @@ export function Header() {
                 <Skeleton className="w-20 h-5" count={1} />
               ) : (
                 <span className="text-[20px] leading-[23px] font-bold">
-                  {fusdBalance === undefined ? "" : fusdBalance.toFixed(2)}
+                  {fusdBalance === undefined ? "0.00" : fusdBalance.toFixed(2)}
                 </span>
               )}
             </div>
