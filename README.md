@@ -10,7 +10,7 @@
 ![image](https://user-images.githubusercontent.com/66669483/221499424-ba807623-7679-4787-a9e2-8a194bc31163.png)
 
 2、打开克隆后的项目，打开右侧的的面板，登录`Testnet`
-![image](https://user-images.githubusercontent.com/66669483/221499992-57d9a2b2-1276-436a-ab58-03022efb5b35.png)
+![image](https://user-images.githubusercontent.com/66669483/221504087-7bbe4e8a-b2a2-4d77-b06b-f9b0cbf8f504.png)
 
 3、切换到`Deploy & Interaction`面板，打开`ChainIDEShieldNFT.cdc`，输入`NFT`的供应量`_maxSupply`参数，部署合约
 ![image](https://user-images.githubusercontent.com/66669483/221500647-d0ba02e1-2366-4f28-a5b8-12829724939c.png)
