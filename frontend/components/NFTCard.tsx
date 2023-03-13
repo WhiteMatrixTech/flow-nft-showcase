@@ -26,12 +26,10 @@ export function NFTCard({ data, isNew }: INFTCardProps) {
     <div className="mb-2 mx-auto max-w-[200px] bg-white border border-gray-200 rounded-lg shadow relative overflow-hidden">
       <img className="rounded-t-lg" src={data.thumbnail} alt="thumbnail" />
       <div className="p-2">
-        <h5 className="mb-2 font-bold tracking-tight text-gray-900 dark:text-white">
+        <h5 className="mb-2 font-bold tracking-tight text-gray-900 ">
           {data.name}
         </h5>
-        <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-          {renderType()}
-        </p>
+        <p className="mb-3 font-normal text-gray-700 ">{renderType()}</p>
         {isNew && (
           <div className="text-secondaryBlack absolute right-0 bottom-0 w-full h-7 bg-themeColor -rotate-45 translate-x-[40%] flex items-center justify-center pl-2 pb-1">
             new
