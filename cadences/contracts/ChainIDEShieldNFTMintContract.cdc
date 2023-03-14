@@ -34,7 +34,7 @@ pub contract ChainIDEShieldNFTMintContract {
         var index = 0
         let types = ["bronze", "silver", "gold", "platinum"];
         while index < amount {
-            minter.mintNFT(recipient: recipient, type: types[index % 4])
+            minter.mintNFT(recipient: recipient, type: types[unsafeRandom() % 4])
             index = index + 1
         }
     }

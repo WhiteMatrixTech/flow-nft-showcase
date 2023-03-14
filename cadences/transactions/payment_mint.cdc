@@ -19,7 +19,7 @@ transaction(
         self.flowTokenRef = signer.borrow<&FlowToken.Vault>(from: /storage/flowTokenVault)?? panic("Could not get value reference of Flow Token")
 
 
-        if signer.borrow<&ChainIDEShieldNFT.collection>(from: ChainIDEShieldNFT.CollectionStoragePath) == nil {
+        if signer.borrow<&ChainIDEShieldNFT.Collection>(from: ChainIDEShieldNFT.CollectionStoragePath) == nil {
             signer.save( <-ChainIDEShieldNFT.createEmptyCollection(), to: ChainIDEShieldNFT.CollectionStoragePath)
         }
 
