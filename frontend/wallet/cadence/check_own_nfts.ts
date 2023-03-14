@@ -1,6 +1,7 @@
-// TODO: change to your account which deploy ChainIDEShildNFT
-import ChainIDEShieldNFT from 0x119dff553c54ffcc
-import MetadataViews from 0x631e88ae7f1d7c20
+export const checkOwnNftsTransaction = `
+import NonFungibleToken from 0xNON_FUNGIBLE_TOKEN_ADDRESS
+import 0xNFT_NAME from 0xNFT_ADDRESS
+import MetadataViews from 0xMETADATA_VIEWS_ADDRESS
 
 /// This script gets all the view-based metadata associated with the specified NFT
 /// and returns it as a single struct
@@ -83,67 +84,79 @@ pub struct NFT {
     }
 }
 
-pub fun main(address: Address, id: UInt64): NFT {
+pub fun main(address: Address): [NFT] {
     let account = getAccount(address)
 
+    let collectionRef = account
+        .getCapability(0xNFT_NAME.CollectionPublicPath)
+        .borrow<&{NonFungibleToken.CollectionPublic}>()
+        ?? panic("Could not borrow capability from public collection at specified path")
+
+    let nftIds: [UInt64] = collectionRef.getIDs()
+
     let collection = account
-        .getCapability(ChainIDEShieldNFT.CollectionPublicPath)
-        .borrow<&{ChainIDEShieldNFT.ChainIDEShieldNFTCollectionPublic}>()
+        .getCapability(0xNFT_NAME.CollectionPublicPath)
+        .borrow<&{0xNFT_NAME.0xNFT_NAMECollectionPublic}>()
         ?? panic("Could not borrow a reference to the collection")
+    let nfts: [NFT] = []
+    var i = 0
+    while i < nftIds.length {
+        let nft = collection.borrowChainIDEShieldNFT(id: nftIds[i])!
 
-    let nft = collection.borrowChainIDEShieldNFT(id: id)!
+        // Get the basic display information for this NFT
+        let display = MetadataViews.getDisplay(nft)!
 
-    // Get the basic display information for this NFT
-    let display = MetadataViews.getDisplay(nft)!
+        // Get the royalty information for the given NFT
+        let royaltyView = MetadataViews.getRoyalties(nft)!
 
-    // Get the royalty information for the given NFT
-    let royaltyView = MetadataViews.getRoyalties(nft)!
+        let externalURL = MetadataViews.getExternalURL(nft)!
 
-    let externalURL = MetadataViews.getExternalURL(nft)!
+        let collectionDisplay = MetadataViews.getNFTCollectionDisplay(nft)!
+        let nftCollectionView = MetadataViews.getNFTCollectionData(nft)!
 
-    let collectionDisplay = MetadataViews.getNFTCollectionDisplay(nft)!
-    let nftCollectionView = MetadataViews.getNFTCollectionData(nft)!
+        let nftEditionView = MetadataViews.getEditions(nft)!
+        let serialNumberView = MetadataViews.getSerial(nft)!
 
-    let nftEditionView = MetadataViews.getEditions(nft)!
-    let serialNumberView = MetadataViews.getSerial(nft)!
+        let owner: Address = nft.owner!.address!
+        let nftType = nft.getType()
 
-    let owner: Address = nft.owner!.address!
-    let nftType = nft.getType()
+        let collectionSocials: {String: String} = {}
+        for key in collectionDisplay.socials.keys {
+            collectionSocials[key] = collectionDisplay.socials[key]!.url
+        }
 
-    let collectionSocials: {String: String} = {}
-    for key in collectionDisplay.socials.keys {
-        collectionSocials[key] = collectionDisplay.socials[key]!.url
+            let traits = MetadataViews.getTraits(nft)!
+
+            let medias=MetadataViews.getMedias(nft)
+            let license=MetadataViews.getLicense(nft)
+        i = i + 1
+        nfts.append(NFT(
+            name: display.name,
+            description: display.description,
+            thumbnail: display.thumbnail.uri(),
+            owner: owner,
+            nftType: nftType.identifier,
+            royalties: royaltyView.getRoyalties(),
+            externalURL: externalURL.url,
+            serialNumber: serialNumberView.number,
+            collectionPublicPath: nftCollectionView.publicPath,
+            collectionStoragePath: nftCollectionView.storagePath,
+            collectionProviderPath: nftCollectionView.providerPath,
+            collectionPublic: nftCollectionView.publicCollection.identifier,
+            collectionPublicLinkedType: nftCollectionView.publicLinkedType.identifier,
+            collectionProviderLinkedType: nftCollectionView.providerLinkedType.identifier,
+            collectionName: collectionDisplay.name,
+            collectionDescription: collectionDisplay.description,
+            collectionExternalURL: collectionDisplay.externalURL.url,
+            collectionSquareImage: collectionDisplay.squareImage.file.uri(),
+            collectionBannerImage: collectionDisplay.bannerImage.file.uri(),
+            collectionSocials: collectionSocials,
+            edition: nftEditionView.infoList[0],
+            traits: traits,
+                    medias:medias,
+                    license:license
+        ))
     }
+    return nfts
 
-		let traits = MetadataViews.getTraits(nft)!
-
-		let medias=MetadataViews.getMedias(nft)
-		let license=MetadataViews.getLicense(nft)
-
-    return NFT(
-        name: display.name,
-        description: display.description,
-        thumbnail: display.thumbnail.uri(),
-        owner: owner,
-        nftType: nftType.identifier,
-        royalties: royaltyView.getRoyalties(),
-        externalURL: externalURL.url,
-        serialNumber: serialNumberView.number,
-        collectionPublicPath: nftCollectionView.publicPath,
-        collectionStoragePath: nftCollectionView.storagePath,
-        collectionProviderPath: nftCollectionView.providerPath,
-        collectionPublic: nftCollectionView.publicCollection.identifier,
-        collectionPublicLinkedType: nftCollectionView.publicLinkedType.identifier,
-        collectionProviderLinkedType: nftCollectionView.providerLinkedType.identifier,
-        collectionName: collectionDisplay.name,
-        collectionDescription: collectionDisplay.description,
-        collectionExternalURL: collectionDisplay.externalURL.url,
-        collectionSquareImage: collectionDisplay.squareImage.file.uri(),
-        collectionBannerImage: collectionDisplay.bannerImage.file.uri(),
-        collectionSocials: collectionSocials,
-        edition: nftEditionView.infoList[0],
-        traits: traits,
-				medias:medias,
-				license:license
-    )
-}
+}`;

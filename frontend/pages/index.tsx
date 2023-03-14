@@ -1,6 +1,8 @@
-import { Content, Header } from "../components";
+import { Content, Header, NFTModal } from "../components";
+import { useWallet } from "../wallet/store/useWallet";
 
 export default function Home() {
+  const { currentMintedNFTIds } = useWallet();
   return (
     <div className="h-screen w-full relative overflow-hidden">
       {/* bg */}
@@ -10,6 +12,8 @@ export default function Home() {
       <Header />
       {/* content */}
       <Content />
+      {/* modal */}
+      <NFTModal />
     </div>
   );
 }

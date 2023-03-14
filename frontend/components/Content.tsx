@@ -1,3 +1,4 @@
+import cn from "classnames";
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -13,34 +14,14 @@ import { ChainsArea } from "./ChainsArea";
 
 export function Content() {
   const [amount, setAmount] = useState(1);
-  const { user } = useWallet();
-  const [isCollectionInit, setCollectionInit] = useState(false);
-
-  useEffect(() => {
-    if (user?.addr) {
-      flowService
-        .checkCollectionInit(user?.addr)
-        .then(setCollectionInit)
-        .catch(console.error);
-    }
-  }, [user?.addr]);
+  const { user, mintNFTs, isMintingNFTs, isGettingSaleDetail, saleDetail } =
+    useWallet();
 
   const handleMint = useCallback(async () => {
-    if (!user?.addr) return;
-    if (!isCollectionInit) {
-      try {
-        // init collection
-        const tx = await flowService.initCollection();
-        setCollectionInit(true);
-        // TODO: 执行mint
-      } catch (e) {
-        console.error(e);
-        toast.error("Mint failed!");
-      }
-    } else {
-      // TODO: 执行mint
-    }
-  }, [isCollectionInit, user?.addr]);
+    if (!user?.addr || isMintingNFTs) return;
+    // 执行mint
+    mintNFTs(amount);
+  }, [amount, isMintingNFTs, mintNFTs, user?.addr]);
 
   const plusAmount = () => {
     setAmount(amount + 1);
@@ -93,7 +74,7 @@ export function Content() {
             <div className="flex items-center justify-between px-4 py-2 bg-secondaryBlack rounded-lg mt-2">
               <span>PRICE</span>
               <div className="bg-[#2A282D] rounded-lg flex items-center justify-center w-[60%] h-[26px]">
-                1 FLOW
+                {Number(saleDetail?.price)} FLOW
               </div>
             </div>
             <div className="flex items-center justify-between px-4 py-2 bg-secondaryBlack rounded-lg mt-2">
@@ -119,7 +100,7 @@ export function Content() {
             <div className="flex items-center justify-between px-4 py-2 bg-secondaryBlack rounded-lg mt-2">
               <span>LEFT</span>
               <div className="bg-[#2A282D] rounded-lg flex items-center justify-center w-[60%] h-[26px]">
-                999/1000
+                {Number(saleDetail?.left)}/{Number(saleDetail?.maxSupply)}
               </div>
             </div>
           </div>
@@ -128,7 +109,10 @@ export function Content() {
             src={mintImg}
             alt="mint"
             role={"button"}
-            className="w-[60%] ml-[20%] mt-[10%]"
+            className={cn(
+              "w-[60%] ml-[20%] mt-[10%]",
+              isMintingNFTs && "opacity-50 cursor-not-allowed"
+            )}
             onClick={handleMint}
           />
         </div>
