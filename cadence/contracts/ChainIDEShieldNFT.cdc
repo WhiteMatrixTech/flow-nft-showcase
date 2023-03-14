@@ -77,8 +77,9 @@ pub contract ChainIDEShieldNFT: NonFungibleToken {
                     return MetadataViews.Display(
                         name: "ChainIDE shield NFT #".concat(self.id.toString()),
                         description: "ChainIDE is a cloud-based IDE for creating decentralized applications.",
-                        thumbnail: MetadataViews.HTTPFile(
-                            url: "https://ipfs.io/ipfs/bafybeify7ul3fvtewfk6rkxqje4ofwm7enekgiy7hc5qpjcrqcj653tg54/".concat(self.type).concat(".jpg")
+                        thumbnail: MetadataViews.IPFSFile(
+                            cid: "bafybeify7ul3fvtewfk6rkxqje4ofwm7enekgiy7hc5qpjcrqcj653tg54",
+                            path: self.type.concat(".jpg")
                         )
                     )
                 case Type<MetadataViews.Editions>():
@@ -126,17 +127,12 @@ pub contract ChainIDEShieldNFT: NonFungibleToken {
                     )
                 case Type<MetadataViews.Traits>():
                     // exclude mintedTime and type to show other uses of Traits
-                    let excludedTraits = ["mintedTime", "type"]
+                    let excludedTraits = ["mintedTime"]
                     let traitsView = MetadataViews.dictToTraits(dict: self.metadata, excludedNames: excludedTraits)
 
                     // mintedTime is a unix timestamp, we should mark it with a displayType so platforms know how to show it.
                     let mintedTimeTrait = MetadataViews.Trait(name: "mintedTime", value: self.metadata["mintedTime"]!, displayType: "Date", rarity: nil)
                     traitsView.addTrait(mintedTimeTrait)
-
-                    // type is a trait with its own rarity
-                    let typeTraitRarity = MetadataViews.Rarity(score: 10.0, max: 100.0, description: "Common")
-                    let typeTrait = MetadataViews.Trait(name: "type", value: self.metadata["type"], displayType: nil, rarity: typeTraitRarity)
-                    traitsView.addTrait(typeTrait)
                     
                     return traitsView
 

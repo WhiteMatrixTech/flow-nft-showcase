@@ -1,6 +1,6 @@
- import NonFungibleToken from "../contracts/NonFungibleToken.cdc"
- import ChainIDEShieldNFTMintContract from "../contracts/ChainIDEShieldNFTMintContract.cdc"
- import ChainIDEShieldNFT from "../contracts/ChainIDEShieldNFT.cdc"
+import NonFungibleToken from "../contracts/NonFungibleToken.cdc"
+import ChainIDEShieldNFTMintContract from "../contracts/ChainIDEShieldNFTMintContract.cdc"
+import ChainIDEShieldNFT from "../contracts/ChainIDEShieldNFT.cdc"
 import MetadataViews from "../contracts/MetadataViews.cdc"
 import FlowToken from "../contracts/FlowToken.cdc"
 
@@ -17,7 +17,7 @@ transaction(
         self.flowTokenRef = signer.borrow<&FlowToken.Vault>(from: /storage/flowTokenVault)?? panic("Could not get value reference of Flow Token")
         
 
-        if signer.borrow<&ChainIDEShieldNFT.collection>(from: ChainIDEShieldNFT.CollectionStoragePath) == nil {
+        if signer.borrow<&ChainIDEShieldNFT.Collection>(from: ChainIDEShieldNFT.CollectionStoragePath) == nil {
             signer.save( <-ChainIDEShieldNFT.createEmptyCollection(), to: ChainIDEShieldNFT.CollectionStoragePath)
         }
 
