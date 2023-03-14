@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 
 interface INFTCardProps {
   isNew?: boolean;
@@ -22,9 +22,18 @@ export function NFTCard({ data, isNew }: INFTCardProps) {
       return <></>;
     }
   }, [data.traits]);
+  const thumbNail = useMemo(() => {
+    if (data.thumbnail.startsWith("ipfs://")) {
+      // ipfs file covert to http link
+      const [cid, name] = data.thumbnail.replace("ipfs://", "").split("/");
+      return `https://ipfs.io/ipfs/${cid}/${name}`;
+    } else {
+      return data.thumbnail;
+    }
+  }, [data.thumbnail]);
   return (
     <div className="mb-2 mx-auto max-w-[200px] bg-white border border-gray-200 rounded-lg shadow relative overflow-hidden">
-      <img className="rounded-t-lg" src={data.thumbnail} alt="thumbnail" />
+      <img className="rounded-t-lg" src={thumbNail} alt="thumbnail" />
       <div className="p-2">
         <h5 className="mb-2 font-bold tracking-tight text-gray-900 ">
           {data.name}
