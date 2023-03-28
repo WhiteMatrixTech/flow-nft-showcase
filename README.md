@@ -120,7 +120,7 @@ import ChainIDEShieldNFT from 0x119dff553c54ffcc
 
 最后我们需要将我们的 NFT 添加到 NFT Catalog，这样其他 NFT 市场就可以引入我们的NFT了
 
-点击进入 https://www.flow-nft-catalog.com/v，你可以依据下方的教程完成整个步骤
+点击进入 [NFT Catalog](https://www.flow-nft-catalog.com/v)，你可以依据下方的教程完成整个步骤
 
 ![image-20230315161145946](./flow-nft.assets/image-20230315161145946.png)
 
