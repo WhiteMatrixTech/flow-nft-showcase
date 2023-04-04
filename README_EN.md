@@ -1,0 +1,159 @@
+
+# 🌊 Flow NFT ShowCase
+
+This is a guide that teaches you how to create a full-stack NFT minting page on Flow using ChainIDE, Cadence, and React. 🤖💻🌟
+
+If you have any questions, please join our [ChainIDE Discord](https://discord.gg/QpGq4hjWrh)💬👥.
+
+This tutorial will be divided into the following steps:
+
+1.  Use Flow wallet and get test tokens 💰💳
+2.  Deploy NFT smart contract 📝💻🚀
+3.  Deploy frontend page 🎨💻🚀
+4.  Add your NFT 🔍🎨
+5.  Deploy on the mainnet 🚀🌟
+
+### 1. Use Flow wallet and get test tokens💰💳
+
+When we deploy a smart contract on the blockchain or interact with an already deployed smart contract, we need a Flow wallet. There are many types of Flow wallets (Blocto, Lilico, Flipper, etc.), but in this tutorial, we will use Blocto. 🧑‍💻💼
+
+On the right side of the ChainIDE Flow programming page, select Testnet and click Authenticate.
+
+![blocto-auth](./flow-nft.assets/blocto-auth.png)
+
+Choose Blocto.
+
+![blocto-login](./flow-nft.assets/blocto-login.png)
+
+Enter your email and register your account. After that, click on Copy Wallet Address. 📝💼👨‍💼
+
+![blocto-address](./flow-nft.assets/blocto-address.png)
+
+Go to the [Flow Faucet](https://testnet-faucet.onflow.org/fund-account), paste your wallet address, select FLOW by default, complete the hCaptcha authentication, and click FUND YOUR ACCOUNT.
+
+![flow-faucet](./flow-nft.assets/flow-faucet.png)
+
+Now we have received 1000 test tokens.
+
+![flow-balance](./flow-nft.assets/flow-balance.png)
+### 2. Deploy NFT Smart Contract 📝💻🚀
+
+Our NFT smart contract is based on the [Flow Non-Fungible Token Standard](https://github.com/onflow/flow-nft).
+
+Navigate to the `contract` folder and open `ChainIDEShieldNFT.cdc`. ![image-20230312214357893](./flow-nft.assets/image-20230312214357893.png)
+
+```js
+import NonFungibleToken from 0x631e88ae7f1d7c20
+import MetadataViews from 0x631e88ae7f1d7c20` 
+```
+NonFungibleToken` and `MetadataViews` have already been deployed on various networks. You can import them into your contract from these addresses without having to deploy them yourself. You can find all the information on [Fungible Token Contract | Flow Blockchain](https://developers.flow.com/flow/core-contracts/fungible-token).
+
+Here you can view your Metadata:
+
+```js
+/// Function that resolves a metadata view for this token.
+        ///
+        /// @param view: The Type of the desired view.
+        /// @return A structure representing the requested view.
+        ///
+        pub fun resolveView(_ view: Type): AnyStruct? {...
+    }
+```
+Then, switch to the `Deploy & Interaction` panel, enter the maximum supply of your NFT in the `_maxSupply` field (e.g., 4), and click Deploy.
+
+![image-20230312220628133](./flow-nft.assets/image-20230312220628133.png)
+
+Open `ChainIDEShieldNFTMintContract.cdc`.
+
+![image-20230312220918106](./flow-nft.assets/image-20230312220918106.png)
+
+The address information at the beginning needs to be configured.
+
+```js
+...
+// TODO: change to your account which deploy ChainIDEShildNFT
+import ChainIDEShieldNFT from 0x119dff553c54ffcc 
+```
+**Replace the address after `ChainIDEShieldNFT` with the address of your current logged-in account.**
+
+Then, in the right panel, enter the `price` parameter (in $Flow) for minting your NFT (e.g., 10) as well as the `receiver` parameter (the address that will receive the payment, e.g., your wallet address), and click deploy contract.
+
+![image-20230312222020437](./flow-nft.assets/image-20230312222020437.png)
+
+### 3. Deploy front-end page 🎨💻🚀
+Modify the parameters in `frontend/config.ts`, if the contract name has not been modified, just modify the `deployer` address, and change the address of the deployer to your wallet address
+![image-20230312225103593](./flow-nft.assets/image-20230312225103593.png)
+
+Open `Sandbox` `flow-cli`, execute `cd frontend && npm install && npm start`
+![image-20230312225146681](./flow-nft.assets/image-20230312225146681.png)
+
+![image-20230312225242869](./flow-nft.assets/image-20230312225242869.png)
+
+![image-20230312231347932](./flow-nft.assets/image-20230312231347932.png)
+
+Open the port forwarding panel on the left, select the `flow-cli` image, enter the port number 3000, and click `Add`
+
+![image-20230312231419952](./flow-nft.assets/image-20230312231419952.png)
+
+After the addition is successful, there will be an additional record of port 3000 in the table, click the icon button to open it with a browser
+
+![image-20230313094756154](./flow-nft.assets/image-20230313094756154.png)
+
+The browser will open the following page
+![image-20230313094828507](./flow-nft.assets/image-20230313094828507.png)
+
+After successfully logging in to the wallet, you can see that the price and supply have been successfully read from the contract
+![image-20230313095059185](./flow-nft.assets/image-20230313095059185.png)
+
+Click to execute `Mint`, if the wallet `Flow` has insufficient balance, you can get Flow test tokens from [FLow Faucet](https://testnet-faucet-v2.onflow.org/fund-account)
+![image-20230313095722483](./flow-nft.assets/image-20230313095722483.png)
+
+After `Mint`, you can see that the value of the remaining `NFT` has changed
+![image-20230313095920312](./flow-nft.assets/image-20230313095920312.png)
+
+### 4. Add your NFT 🔍🎨
+
+Finally, we need to add our NFT to the NFT Catalog so that other NFT markets can introduce our NFT
+
+Click to enter [NFT Catalog](https://www.flow-nft-catalog.com/v), you can follow the tutorial below to complete the whole steps
+
+![image-20230315161145946](./flow-nft.assets/image-20230315161145946.png)
+
+After the official review, record the following 3 fields
+
+![image-20230316171728828](./flow-nft.assets/image-20230316171728828.png)
+
+Next, go to the NFT trading market (such as: [MatrixMarket](https://matrixmarket.xyz/home)), provide the above three fields, and the trading market can put the NFT you issued on the shelves
+
+Enter [MatrixMarket Discord](https://discord.com/invite/TEpebqaJJF), click open-a-ticket, and enter your NFT related information (currently MatrixMarket only supports NFT on the mainnet)
+
+![image-20230316172719241](./flow-nft.assets/image-20230316172719241.png)
+
+### 5. Deploy on mainnet 🚀🌟
+
+If you're ready to launch your NFT and web pages on the mainnet, follow these steps to modify the previous testnet tutorial:
+
+#### 5.1. Connect to the mainnet 🌐
+
+![image-20230328100730940](./flow-nft.assets/image-20230328100730940.png)
+
+#### 5.2. Replace the address of the smart contract import contract with the main network address 🔗
+
+Navigate to `cadences/contracts`
+
+![image-20230328101011532](./flow-nft.assets/image-20230328101011532.png)
+
+![image-20230328101148675](./flow-nft.assets/image-20230328101148675.png)
+
+#### 5.3. Update the flow.ts configuration in the front-end page 🌈
+
+Open `frontend/wallet/services/flow.ts`
+
+Replace the content after //Mainnet with the previous code
+
+![image-20230328102925859](./flow-nft.assets/image-20230328102925859.png)
+
+Finally, after the contract mainnet deployment + MInt is successful, according to step 4, you can apply to the NFT marketplace for the mainnet NFT to be listed
+
+Congratulations, you have completed everything in this tutorial!
+✨🚀🎉
