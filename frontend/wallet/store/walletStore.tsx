@@ -58,7 +58,6 @@ export const ContextProvider = (props: { children: ReactNode }) => {
   }, [user?.addr]);
 
   const refreshSaleDetail = useCallback(() => {
-    if (user?.addr) {
       setGettingSaleDetail(true);
       flowService
         .getCollectionSaleDetail()
@@ -67,8 +66,7 @@ export const ContextProvider = (props: { children: ReactNode }) => {
         .finally(() => {
           setGettingSaleDetail(false);
         });
-    }
-  }, [user?.addr]);
+  }, []);
 
   const refreshOwnNFTs = useCallback(() => {
     if (user?.addr) {
@@ -130,9 +128,9 @@ export const ContextProvider = (props: { children: ReactNode }) => {
   }, []);
 
   useEffect(() => {
+    refreshSaleDetail();
     if (user?.addr) {
       refreshBalance();
-      refreshSaleDetail();
       refreshOwnNFTs();
     }
   }, [refreshSaleDetail, refreshBalance, user?.addr, refreshOwnNFTs]);
