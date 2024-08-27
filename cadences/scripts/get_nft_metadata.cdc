@@ -1,149 +1,37 @@
+import MetadataViews from 0x631e88ae7f1d7c20 //Mainnet address: 0x1d7e57aa55817448
+import ViewResolver from 0x631e88ae7f1d7c20 //Mainnet address: 0x1d7e57aa55817448
+import NonFungibleToken from 0x631e88ae7f1d7c20 //Mainnet address: 0x1d7e57aa55817448
 // TODO: change to your account which deploy ChainIDEShildNFT
-import ChainIDEShieldNFT from 0x119dff553c54ffcc
-import MetadataViews from 0x631e88ae7f1d7c20
+import ChainIDEShieldNFT from 0x3f0e550d481207e3
 
 /// This script gets all the view-based metadata associated with the specified NFT
 /// and returns it as a single struct
-pub struct NFT {
-    pub let name: String
-    pub let description: String
-    pub let thumbnail: String
-    pub let owner: Address
-    pub let type: String
-    pub let royalties: [MetadataViews.Royalty]
-    pub let externalURL: String
-    pub let serialNumber: UInt64
-    pub let collectionPublicPath: PublicPath
-    pub let collectionStoragePath: StoragePath
-    pub let collectionProviderPath: PrivatePath
-    pub let collectionPublic: String
-    pub let collectionPublicLinkedType: String
-    pub let collectionProviderLinkedType: String
-    pub let collectionName: String
-    pub let collectionDescription: String
-    pub let collectionExternalURL: String
-    pub let collectionSquareImage: String
-    pub let collectionBannerImage: String
-    pub let collectionSocials: {String: String}
-    pub let edition: MetadataViews.Edition
-    pub let traits: MetadataViews.Traits
-		pub let medias: MetadataViews.Medias?
-		pub let license: MetadataViews.License?
-
+access(all) struct NFT {
+    access(all) let id: UInt64
+    access(all) let traits: MetadataViews.Traits
+    access(all) let display: MetadataViews.Display
     init(
-        name: String,
-        description: String,
-        thumbnail: String,
-        owner: Address,
-        nftType: String,
-        royalties: [MetadataViews.Royalty],
-        externalURL: String,
-        serialNumber: UInt64,
-        collectionPublicPath: PublicPath,
-        collectionStoragePath: StoragePath,
-        collectionProviderPath: PrivatePath,
-        collectionPublic: String,
-        collectionPublicLinkedType: String,
-        collectionProviderLinkedType: String,
-        collectionName: String,
-        collectionDescription: String,
-        collectionExternalURL: String,
-        collectionSquareImage: String,
-        collectionBannerImage: String,
-        collectionSocials: {String: String},
-        edition: MetadataViews.Edition,
-        traits: MetadataViews.Traits,
-				medias:MetadataViews.Medias?,
-				license:MetadataViews.License?
+         id: UInt64,
+         traits: MetadataViews.Traits,
+         display: MetadataViews.Display,
+
     ) {
-        self.name = name
-        self.description = description
-        self.thumbnail = thumbnail
-        self.owner = owner
-        self.type = nftType
-        self.royalties = royalties
-        self.externalURL = externalURL
-        self.serialNumber = serialNumber
-        self.collectionPublicPath = collectionPublicPath
-        self.collectionStoragePath = collectionStoragePath
-        self.collectionProviderPath = collectionProviderPath
-        self.collectionPublic = collectionPublic
-        self.collectionPublicLinkedType = collectionPublicLinkedType
-        self.collectionProviderLinkedType = collectionProviderLinkedType
-        self.collectionName = collectionName
-        self.collectionDescription = collectionDescription
-        self.collectionExternalURL = collectionExternalURL
-        self.collectionSquareImage = collectionSquareImage
-        self.collectionBannerImage = collectionBannerImage
-        self.collectionSocials = collectionSocials
-        self.edition = edition
+        self.id = id
         self.traits = traits
-				self.medias=medias
-				self.license=license
+        self.display = display
     }
 }
 
-pub fun main(address: Address, id: UInt64): NFT {
+access(all) fun main(address: Address, id: UInt64): AnyStruct {
     let account = getAccount(address)
+    let collectionData = ChainIDEShieldNFT.resolveContractView(resourceType: nil, viewType: Type<MetadataViews.NFTCollectionData>()) as! MetadataViews.NFTCollectionData?
+        ?? panic("ViewResolver does not resolve NFTCollectionData view")
+    
+    let collection = account.capabilities.borrow<&{ViewResolver.ResolverCollection}>(
+            collectionData.publicPath
+        ) ?? panic("Could not borrow a reference to the collection")
 
-    let collection = account
-        .getCapability(ChainIDEShieldNFT.CollectionPublicPath)
-        .borrow<&{ChainIDEShieldNFT.ChainIDEShieldNFTCollectionPublic}>()
-        ?? panic("Could not borrow a reference to the collection")
-
-    let nft = collection.borrowChainIDEShieldNFT(id: id)!
-
-    // Get the basic display information for this NFT
-    let display = MetadataViews.getDisplay(nft)!
-
-    // Get the royalty information for the given NFT
-    let royaltyView = MetadataViews.getRoyalties(nft)!
-
-    let externalURL = MetadataViews.getExternalURL(nft)!
-
-    let collectionDisplay = MetadataViews.getNFTCollectionDisplay(nft)!
-    let nftCollectionView = MetadataViews.getNFTCollectionData(nft)!
-
-    let nftEditionView = MetadataViews.getEditions(nft)!
-    let serialNumberView = MetadataViews.getSerial(nft)!
-
-    let owner: Address = nft.owner!.address!
-    let nftType = nft.getType()
-
-    let collectionSocials: {String: String} = {}
-    for key in collectionDisplay.socials.keys {
-        collectionSocials[key] = collectionDisplay.socials[key]!.url
-    }
-
-		let traits = MetadataViews.getTraits(nft)!
-
-		let medias=MetadataViews.getMedias(nft)
-		let license=MetadataViews.getLicense(nft)
-
-    return NFT(
-        name: display.name,
-        description: display.description,
-        thumbnail: display.thumbnail.uri(),
-        owner: owner,
-        nftType: nftType.identifier,
-        royalties: royaltyView.getRoyalties(),
-        externalURL: externalURL.url,
-        serialNumber: serialNumberView.number,
-        collectionPublicPath: nftCollectionView.publicPath,
-        collectionStoragePath: nftCollectionView.storagePath,
-        collectionProviderPath: nftCollectionView.providerPath,
-        collectionPublic: nftCollectionView.publicCollection.identifier,
-        collectionPublicLinkedType: nftCollectionView.publicLinkedType.identifier,
-        collectionProviderLinkedType: nftCollectionView.providerLinkedType.identifier,
-        collectionName: collectionDisplay.name,
-        collectionDescription: collectionDisplay.description,
-        collectionExternalURL: collectionDisplay.externalURL.url,
-        collectionSquareImage: collectionDisplay.squareImage.file.uri(),
-        collectionBannerImage: collectionDisplay.bannerImage.file.uri(),
-        collectionSocials: collectionSocials,
-        edition: nftEditionView.infoList[0],
-        traits: traits,
-				medias:medias,
-				license:license
-    )
+    let viewResolver = collection.borrowViewResolver(id: id)!
+    let nftView = MetadataViews.getNFTView(id: id, viewResolver: viewResolver)
+    return NFT(id: nftView.id!, traits: nftView.traits!, display: nftView.display!)
 }

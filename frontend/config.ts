@@ -3,5 +3,5 @@ export const ContractInfo = {
   name: "ChainIDEShieldNFT",
   minterName: "ChainIDEShieldNFTMintContract",
   // 0x prefix
-  deployer: "0x119dff553c54ffcc",
+  deployer: "0x3f0e550d481207e3",
 };

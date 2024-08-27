@@ -1,44 +1,43 @@
 import NonFungibleToken from 0x631e88ae7f1d7c20 //Mainnet address: 0x1d7e57aa55817448
 import MetadataViews from 0x631e88ae7f1d7c20 //Mainnet address: 0x1d7e57aa55817448
+import ViewResolver from 0x631e88ae7f1d7c20 //Mainnet address: 0x1d7e57aa55817448
 
-pub contract ChainIDEShieldNFT: NonFungibleToken {
+access(all) contract ChainIDEShieldNFT {
 
     /// Total supply of ChainIDEShieldNFT in existence
-    pub var totalSupply: UInt64
+    access(all) var totalSupply: UInt64
 
     /// Max supply of ChainIDEShieldNFT in existence
-    pub var maxSupply: UInt64
+    access(all) var maxSupply: UInt64
 
     /// The event that is emitted when the contract is created
-    pub event ContractInitialized()
+    access(all) event ContractInitialized()
 
     /// The event that is emitted when an NFT is withdrawn from a Collection
-    pub event Withdraw(id: UInt64, from: Address?)
+    access(all) event Withdraw(id: UInt64, from: Address?)
 
     /// The event that is emitted when an NFT is deposited to a Collection
-    pub event Deposit(id: UInt64, to: Address?)
+    access(all) event Deposit(id: UInt64, to: Address?)
 
     // Collection name
-    pub let CollectionName: String
+    access(all) let CollectionName: String
     // Collection description
-    pub let CollectionDesc: String
+    access(all) let CollectionDesc: String
 
     /// Storage and Public Paths
-    pub let CollectionStoragePath: StoragePath
-    pub let CollectionPublicPath: PublicPath
-    pub let MinterStoragePath: StoragePath
+    access(all) let CollectionStoragePath: StoragePath
+    access(all) let CollectionPublicPath: PublicPath
+    access(all) let MinterStoragePath: StoragePath
 
     /// The core resource that represents a Non Fungible Token.
     /// New instances will be created using the NFTMinter resource
     /// and stored in the Collection resource
     ///
-    pub resource NFT: NonFungibleToken.INFT, MetadataViews.Resolver {
+    access(all) resource NFT: NonFungibleToken.NFT {
 
         /// The unique ID that each NFT has
-        pub let id: UInt64
-        pub let type: String
-
-
+        access(all) let id: UInt64
+        access(all) let type: String
 
         /// Metadata fields
         access(self) let metadata: {String: AnyStruct}
@@ -53,12 +52,16 @@ pub contract ChainIDEShieldNFT: NonFungibleToken {
             self.metadata = metadata
         }
 
+         access(all) fun createEmptyCollection(): @{NonFungibleToken.Collection} {
+            return <-ChainIDEShieldNFT.createEmptyCollection(nftType: Type<@ChainIDEShieldNFT.NFT>())
+        }
+
         /// Function that returns all the Metadata Views implemented by a Non Fungible Token
         ///
         /// @return An array of Types defining the implemented views. This value will be used by
         ///         developers to know which parameter to pass to the resolveView() method.
         ///
-        pub fun getViews(): [Type] {
+        access(all) view fun getViews(): [Type] {
             return [
                 Type<MetadataViews.Display>(),
                 Type<MetadataViews.Royalties>(),
@@ -76,7 +79,7 @@ pub contract ChainIDEShieldNFT: NonFungibleToken {
         /// @param view: The Type of the desired view.
         /// @return A structure representing the requested view.
         ///
-        pub fun resolveView(_ view: Type): AnyStruct? {
+        access(all) fun resolveView(_ view: Type): AnyStruct? {
             switch view {
                 case Type<MetadataViews.Display>():
                     return MetadataViews.Display(
@@ -102,34 +105,9 @@ pub contract ChainIDEShieldNFT: NonFungibleToken {
                 case Type<MetadataViews.ExternalURL>():
                     return MetadataViews.ExternalURL("https://chainide.com/")
                 case Type<MetadataViews.NFTCollectionData>():
-                    return MetadataViews.NFTCollectionData(
-                        storagePath: ChainIDEShieldNFT.CollectionStoragePath,
-                        publicPath: ChainIDEShieldNFT.CollectionPublicPath,
-                        providerPath: /private/ChainIDEShieldNFTCollection,
-                        publicCollection: Type<&ChainIDEShieldNFT.Collection{ChainIDEShieldNFT.ChainIDEShieldNFTCollectionPublic}>(),
-                        publicLinkedType: Type<&ChainIDEShieldNFT.Collection{ChainIDEShieldNFT.ChainIDEShieldNFTCollectionPublic,NonFungibleToken.CollectionPublic,NonFungibleToken.Receiver,MetadataViews.ResolverCollection}>(),
-                        providerLinkedType: Type<&ChainIDEShieldNFT.Collection{ChainIDEShieldNFT.ChainIDEShieldNFTCollectionPublic,NonFungibleToken.CollectionPublic,NonFungibleToken.Provider,MetadataViews.ResolverCollection}>(),
-                        createEmptyCollectionFunction: (fun (): @NonFungibleToken.Collection {
-                            return <-ChainIDEShieldNFT.createEmptyCollection()
-                        })
-                    )
+                    return ChainIDEShieldNFT.resolveContractView(resourceType: Type<@ChainIDEShieldNFT.NFT>(), viewType: Type<MetadataViews.NFTCollectionData>())
                 case Type<MetadataViews.NFTCollectionDisplay>():
-                    let media = MetadataViews.Media(
-                        file: MetadataViews.HTTPFile(
-                            url: "https://ipfs.io/ipfs/bafkreietoyammygl7liiqboujde5fle4tz4ts6fhwljdnwnaj36bv4kly4"
-                        ),
-                        mediaType: "image/jpg"
-                    )
-                    return MetadataViews.NFTCollectionDisplay(
-                        name: ChainIDEShieldNFT.CollectionName,
-                        description: ChainIDEShieldNFT.CollectionDesc,
-                        externalURL: MetadataViews.ExternalURL("https://chainide.com"),
-                        squareImage: media,
-                        bannerImage: media,
-                        socials: {
-                            "twitter": MetadataViews.ExternalURL("https://twitter.com/ChainIDE")
-                        }
-                    )
+                    return ChainIDEShieldNFT.resolveContractView(resourceType: Type<@ChainIDEShieldNFT.NFT>(), viewType: Type<MetadataViews.NFTCollectionDisplay>())
                 case Type<MetadataViews.Traits>():
                     // exclude mintedTime and type to show other uses of Traits
                     let excludedTraits = ["mintedTime"]
@@ -146,28 +124,14 @@ pub contract ChainIDEShieldNFT: NonFungibleToken {
         }
     }
 
-    /// Defines the methods that are particular to this NFT contract collection
-    ///
-    pub resource interface ChainIDEShieldNFTCollectionPublic {
-        pub fun deposit(token: @NonFungibleToken.NFT)
-        pub fun getIDs(): [UInt64]
-        pub fun borrowNFT(id: UInt64): &NonFungibleToken.NFT
-        pub fun borrowChainIDEShieldNFT(id: UInt64): &ChainIDEShieldNFT.NFT? {
-            post {
-                (result == nil) || (result?.id == id):
-                    "Cannot borrow ChainIDEShieldNFT reference: the ID of the returned reference is incorrect"
-            }
-        }
-    }
-
     /// The resource that will be holding the NFTs inside any account.
     /// In order to be able to manage NFTs any account will need to create
     /// an empty collection first
     ///
-    pub resource Collection: ChainIDEShieldNFTCollectionPublic, NonFungibleToken.Provider, NonFungibleToken.Receiver, NonFungibleToken.CollectionPublic, MetadataViews.ResolverCollection {
+    access(all) resource Collection: NonFungibleToken.Collection {
         // dictionary of NFT conforming tokens
         // NFT is a resource type with an `UInt64` ID field
-        pub var ownedNFTs: @{UInt64: NonFungibleToken.NFT}
+        access(all) var ownedNFTs: @{UInt64: {NonFungibleToken.NFT}}
 
         init () {
             self.ownedNFTs <- {}
@@ -178,8 +142,8 @@ pub contract ChainIDEShieldNFT: NonFungibleToken {
         /// @param withdrawID: The ID of the NFT that wants to be withdrawn
         /// @return The NFT resource that has been taken out of the collection
         ///
-        pub fun withdraw(withdrawID: UInt64): @NonFungibleToken.NFT {
-            let token <- self.ownedNFTs.remove(key: withdrawID) ?? panic("missing NFT")
+        access(NonFungibleToken.Withdraw) fun withdraw(withdrawID: UInt64): @{NonFungibleToken.NFT} {
+            let token <- self.ownedNFTs.remove(key: withdrawID) ?? panic("Could not withdraw an NFT with the provided ID from the collection")
 
             emit Withdraw(id: token.id, from: self.owner?.address)
 
@@ -190,7 +154,7 @@ pub contract ChainIDEShieldNFT: NonFungibleToken {
         ///
         /// @param token: The NFT resource to be included in the collection
         ///
-        pub fun deposit(token: @NonFungibleToken.NFT) {
+        access(all) fun deposit(token: @{NonFungibleToken.NFT}) {
             let token <- token as! @ChainIDEShieldNFT.NFT
 
             let id: UInt64 = token.id
@@ -207,7 +171,7 @@ pub contract ChainIDEShieldNFT: NonFungibleToken {
         ///
         /// @return An array containing the IDs of the NFTs in the collection
         ///
-        pub fun getIDs(): [UInt64] {
+        access(all) view fun getIDs(): [UInt64] {
             return self.ownedNFTs.keys
         }
 
@@ -217,8 +181,8 @@ pub contract ChainIDEShieldNFT: NonFungibleToken {
         /// @param id: The ID of the wanted NFT
         /// @return A reference to the wanted NFT resource
         ///
-        pub fun borrowNFT(id: UInt64): &NonFungibleToken.NFT {
-            return (&self.ownedNFTs[id] as &NonFungibleToken.NFT?)!
+        access(all) view fun borrowNFT(_ id: UInt64): &{NonFungibleToken.NFT} {
+            return (&self.ownedNFTs[id] as &{NonFungibleToken.NFT}?)!
         }
 
         /// Gets a reference to an NFT in the collection so that
@@ -227,14 +191,26 @@ pub contract ChainIDEShieldNFT: NonFungibleToken {
         /// @param id: The ID of the wanted NFT
         /// @return A reference to the wanted NFT resource
         ///
-        pub fun borrowChainIDEShieldNFT(id: UInt64): &ChainIDEShieldNFT.NFT? {
+        access(all) view fun borrowChainIDEShieldNFT(_ id: UInt64): &ChainIDEShieldNFT.NFT? {
             if self.ownedNFTs[id] != nil {
                 // Create an authorized reference to allow downcasting
-                let ref = (&self.ownedNFTs[id] as auth &NonFungibleToken.NFT?)!
+                let ref = (&self.ownedNFTs[id] as &{NonFungibleToken.NFT}?)!
                 return ref as! &ChainIDEShieldNFT.NFT
             }
-
             return nil
+        }
+
+        /// getSupportedNFTTypes returns a list of NFT types that this receiver accepts
+        access(all) view fun getSupportedNFTTypes(): {Type: Bool} {
+            let supportedTypes: {Type: Bool} = {}
+            supportedTypes[Type<@ChainIDEShieldNFT.NFT>()] = true
+            return supportedTypes
+        }
+
+        /// Returns whether or not the given type is accepted by the collection
+        /// A collection that can accept any type should just return true by default
+        access(all) view fun isSupportedNFTType(type: Type): Bool {
+            return type == Type<@ChainIDEShieldNFT.NFT>()
         }
 
         /// Gets a reference to the NFT only conforming to the `{MetadataViews.Resolver}`
@@ -244,29 +220,74 @@ pub contract ChainIDEShieldNFT: NonFungibleToken {
         /// @param id: The ID of the wanted NFT
         /// @return The resource reference conforming to the Resolver interface
         ///
-        pub fun borrowViewResolver(id: UInt64): &AnyResource{MetadataViews.Resolver} {
-            let nft = (&self.ownedNFTs[id] as auth &NonFungibleToken.NFT?)!
-            let ChainIDEShieldNFT = nft as! &ChainIDEShieldNFT.NFT
-            return ChainIDEShieldNFT as &AnyResource{MetadataViews.Resolver}
+        access(all) view fun borrowViewResolver(id: UInt64): &{ViewResolver.Resolver}? {
+            if let nft = &self.ownedNFTs[id] as &{NonFungibleToken.NFT}? {
+                return nft as &{ViewResolver.Resolver}
+            }
+            return nil
         }
 
-        destroy() {
-            destroy self.ownedNFTs
+        /// createEmptyCollection creates an empty Collection of the same type
+        /// and returns it to the caller
+        /// @return A an empty collection of the same type
+        access(all) fun createEmptyCollection(): @{NonFungibleToken.Collection} {
+            return <-ChainIDEShieldNFT.createEmptyCollection(nftType: Type<@ChainIDEShieldNFT.NFT>())
         }
     }
 
-    /// Allows anyone to create a new empty collection
-    ///
-    /// @return The new Collection resource
-    ///
-    pub fun createEmptyCollection(): @NonFungibleToken.Collection {
+    /// createEmptyCollection creates an empty Collection for the specified NFT type
+    /// and returns it to the caller so that they can own NFTs
+    access(all) fun createEmptyCollection(nftType: Type): @Collection {
         return <- create Collection()
+    }
+
+     /// Gets a list of views for all the NFTs defined by this contract
+    access(all) view fun getContractViews(resourceType: Type?): [Type] {
+        return [
+            Type<MetadataViews.NFTCollectionData>(),
+            Type<MetadataViews.NFTCollectionDisplay>()
+        ]
+    }
+
+    /// Resolves a view that applies to all the NFTs defined by this contract
+    access(all) fun resolveContractView(resourceType: Type?, viewType: Type): AnyStruct? {
+        switch viewType {
+            case Type<MetadataViews.NFTCollectionData>():
+                let collectionData = MetadataViews.NFTCollectionData(
+                    storagePath: self.CollectionStoragePath,
+                    publicPath: self.CollectionPublicPath,
+                    publicCollection: Type<&ChainIDEShieldNFT.Collection>(),
+                    publicLinkedType: Type<&ChainIDEShieldNFT.Collection>(),
+                    createEmptyCollectionFunction: (fun(): @{NonFungibleToken.Collection} {
+                        return <-ChainIDEShieldNFT.createEmptyCollection(nftType: Type<@ChainIDEShieldNFT.NFT>())
+                    })
+                )
+                return collectionData
+            case Type<MetadataViews.NFTCollectionDisplay>():
+                let media = MetadataViews.Media(
+                    file: MetadataViews.HTTPFile(
+                        url: "https://ipfs.io/ipfs/bafkreietoyammygl7liiqboujde5fle4tz4ts6fhwljdnwnaj36bv4kly4"
+                    ),
+                    mediaType: "image/jpg"
+                )
+                return MetadataViews.NFTCollectionDisplay(
+                    name: ChainIDEShieldNFT.CollectionName,
+                    description: ChainIDEShieldNFT.CollectionDesc,
+                    externalURL: MetadataViews.ExternalURL("https://chainide.com"),
+                    squareImage: media,
+                    bannerImage: media,
+                    socials: {
+                        "twitter": MetadataViews.ExternalURL("https://twitter.com/ChainIDE")
+                    }
+                )
+        }
+        return nil
     }
 
     /// Resource that an admin or something similar would own to be
     /// able to mint new NFTs
     ///
-    pub resource NFTMinter {
+    access(all) resource NFTMinter {
 
         /// Mints a new NFT with a new ID and deposit it in the
         /// recipients collection using their collection reference
@@ -275,7 +296,7 @@ pub contract ChainIDEShieldNFT: NonFungibleToken {
         /// @param type: The type for the NFT metadata
         /// @param royalties: An array of Royalty structs, see MetadataViews docs
         ///
-        pub fun mintNFT(
+        access(all) fun mintNFT(
             recipient: &{NonFungibleToken.CollectionPublic},
             type: String,
         ) {
@@ -305,11 +326,11 @@ pub contract ChainIDEShieldNFT: NonFungibleToken {
         }
     }
 
-    init(_maxSupply: UInt64) {
+    init() {
         // Initialize the total supply
         self.totalSupply = 0
-
-        self.maxSupply = _maxSupply
+        // set max support
+        self.maxSupply = 10000
 
         // Set collection name and description
         self.CollectionName = "ChainIDE Shield NFT"
@@ -322,17 +343,22 @@ pub contract ChainIDEShieldNFT: NonFungibleToken {
 
         // Create a Collection resource and save it to storage
         let collection <- create Collection()
-        self.account.save(<-collection, to: self.CollectionStoragePath)
+        self.account.storage.save(<-collection, to: self.CollectionStoragePath)
 
         // create a public capability for the collection
-        self.account.link<&ChainIDEShieldNFT.Collection{NonFungibleToken.CollectionPublic, ChainIDEShieldNFT.ChainIDEShieldNFTCollectionPublic, MetadataViews.ResolverCollection}>(
-            self.CollectionPublicPath,
-            target: self.CollectionStoragePath
+         // Create a public capability to the Vault that exposes the Vault interfaces
+        let vaultCap = self.account.capabilities.storage.issue<&ChainIDEShieldNFT.Collection>(
+             self.CollectionStoragePath
         )
+        self.account.capabilities.publish(vaultCap, at: self.CollectionPublicPath)
+        // self.account.link<&ChainIDEShieldNFT.Collection{NonFungibleToken.CollectionPublic, ChainIDEShieldNFT.ChainIDEShieldNFTCollectionPublic, MetadataViews.ResolverCollection}>(
+        //     self.CollectionPublicPath,
+        //     target: self.CollectionStoragePath
+        // )
 
         // Create a Minter resource and save it to storage
         let minter <- create NFTMinter()
-        self.account.save(<-minter, to: self.MinterStoragePath)
+        self.account.storage.save(<-minter, to: self.MinterStoragePath)
 
         emit ContractInitialized()
     }

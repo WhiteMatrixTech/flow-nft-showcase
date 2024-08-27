@@ -62,7 +62,17 @@ export class FlowService {
   };
 
   getOwnNfts = async (address: string): Promise<Array<NFTMetadata>> => {
-    return this.scriptInteract(checkOwnNftsTransaction, [address]);
+    const data =  await this.scriptInteract(checkOwnNftsTransaction, [address])
+    return data.map((item:any)=>{
+      const nft:NFTMetadata = {
+        serialNumber: Number(item.id),
+        name: item.display.name,
+        description: item.display.description,
+        thumbnail: `https://${item.display.thumbnail.cid}.ipfs.nftstorage.link/${item.display.thumbnail.path}`,
+        traits: item.traits
+      }
+      return nft;
+    })
   };
 
   getAccount = async (address: string): Promise<AccountObject> => {

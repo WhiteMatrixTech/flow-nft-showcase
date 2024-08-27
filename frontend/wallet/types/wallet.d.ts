@@ -15,8 +15,6 @@ interface NFTMetadata {
   name: string;
   description: string;
   thumbnail: string;
-  owner: string;
-  type: string;
   serialNumber: number;
   traits: {
     traits: Array<{
