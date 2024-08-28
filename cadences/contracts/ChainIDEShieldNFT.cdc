@@ -326,11 +326,11 @@ access(all) contract ChainIDEShieldNFT {
         }
     }
 
-    init() {
+    init(maxSupply: UInt64) {
         // Initialize the total supply
         self.totalSupply = 0
         // set max support
-        self.maxSupply = 10000
+        self.maxSupply = maxSupply
 
         // Set collection name and description
         self.CollectionName = "ChainIDE Shield NFT"
