@@ -22,11 +22,9 @@
 
 ![image-20230312205320888](https://d3gvnlbntpm4ho.cloudfront.net/Non-Fungible-Token_on_Flow/flow-nft.assets/image-20230312205320888.png)
 
-选择 Blocto
+选择 Flow Wallet
 
-![image-20230315154407456](https://d3gvnlbntpm4ho.cloudfront.net/Non-Fungible-Token_on_Flow/flow-nft.assets/image-20230315154407456.png)
-
-输入邮箱，注册好账户后
+![image](https://github.com/user-attachments/assets/eb4f3919-9daa-46f1-9775-a24704f64d44)
 
 点击复制钱包地址
 
@@ -91,20 +89,28 @@ import ChainIDEShieldNFT from 0x119dff553c54ffcc
 修改`frontend/config.ts`里面的参数，如果合约名没有做修改，只需要修改`deployer`地址即可，将depolyer的地址修改为你的钱包地址
 ![image-20230312225103593](https://d3gvnlbntpm4ho.cloudfront.net/Non-Fungible-Token_on_Flow/flow-nft.assets/image-20230312225103593.png)
 
-打开`Sandbox` `flow-cli` ，执行`cd frontend && npm install && npm start`
+打开`Sandbox` `Flow (Ubuntu)` ，执行
+
+```bash
+cd frontend  
+yarn  
+yarn start
+```
+
 ![image-20230312225146681](https://d3gvnlbntpm4ho.cloudfront.net/Non-Fungible-Token_on_Flow/flow-nft.assets/image-20230312225146681.png)
 
 ![image-20230312225242869](https://d3gvnlbntpm4ho.cloudfront.net/Non-Fungible-Token_on_Flow/flow-nft.assets/image-20230312225242869.png)
 
 ![image-20230312231347932](https://d3gvnlbntpm4ho.cloudfront.net/Non-Fungible-Token_on_Flow/flow-nft.assets/image-20230312231347932.png)
 
-打开左边端口转发面板，选择`flow-cli`镜像，输入端口号3000，点击`Add`
+打开左边端口转发面板，选择`Flow (Ubuntu)`镜像， Protocol： HTTP，输入端口号3000，点击`Add`
 
-![image-20230312231419952](https://d3gvnlbntpm4ho.cloudfront.net/Non-Fungible-Token_on_Flow/flow-nft.assets/image-20230312231419952.png)
+![image](https://github.com/user-attachments/assets/d5ab700a-4c9f-41ab-9e63-e54f45c248b5)
+
 
 添加成功后，表格里会多一条3000端口的记录，点击图示按钮，用浏览器打开
 
-![image-20230313094756154](https://d3gvnlbntpm4ho.cloudfront.net/Non-Fungible-Token_on_Flow/flow-nft.assets/image-20230313094756154.png)
+![image](https://github.com/user-attachments/assets/046cdf07-8027-4c7a-b35f-4be1603ad7de)
 
 浏览器会打开如下页面
 ![image-20230313094828507](https://d3gvnlbntpm4ho.cloudfront.net/Non-Fungible-Token_on_Flow/flow-nft.assets/image-20230313094828507.png)
