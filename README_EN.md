@@ -23,11 +23,11 @@ On the right side of the ChainIDE Flow programming page, select Testnet and clic
 
 ![image-20230312205320888](https://d3gvnlbntpm4ho.cloudfront.net/Non-Fungible-Token_on_Flow/flow-nft.assets/image-20230312205320888.png)
 
-Choose Blocto.
+Choose Flow Wallet.
 
-![image-20230315154407456](https://d3gvnlbntpm4ho.cloudfront.net/Non-Fungible-Token_on_Flow/flow-nft.assets/image-20230315154407456.png)
+![image](https://github.com/user-attachments/assets/eb4f3919-9daa-46f1-9775-a24704f64d44)
 
-Enter your email and register your account. After that, click on Copy Wallet Address. 📝💼👨‍💼
+Click on Copy Wallet Address. 📝💼👨‍💼
 
 ![image-20230312205623790](https://d3gvnlbntpm4ho.cloudfront.net/Non-Fungible-Token_on_Flow/flow-nft.assets/image-20230312205623790.png)
 
@@ -86,20 +86,27 @@ Then, in the right panel, enter the `price` parameter (in $Flow) for minting you
 Modify the parameters in `frontend/config.ts`, if the contract name has not been modified, just modify the `deployer` address, and change the address of the deployer to your wallet address
 ![image-20230312225103593](https://d3gvnlbntpm4ho.cloudfront.net/Non-Fungible-Token_on_Flow/flow-nft.assets/image-20230312225103593.png)
 
-Open `Sandbox` `flow-cli`, execute `cd frontend && npm install && npm start`
+Open `Sandbox` `Flow (Ubuntu)` , execute 
+
+```bash
+cd frontend  
+yarn  
+yarn start
+```
+
 ![image-20230312225146681](https://d3gvnlbntpm4ho.cloudfront.net/Non-Fungible-Token_on_Flow/flow-nft.assets/image-20230312225146681.png)
 
 ![image-20230312225242869](https://d3gvnlbntpm4ho.cloudfront.net/Non-Fungible-Token_on_Flow/flow-nft.assets/image-20230312225242869.png)
 
 ![image-20230312231347932](https://d3gvnlbntpm4ho.cloudfront.net/Non-Fungible-Token_on_Flow/flow-nft.assets/image-20230312231347932.png)
 
-Open the port forwarding panel on the left, select the `flow-cli` image, enter the port number 3000, and click `Add`
+Open the port forwarding panel on the left, Select the Flow (Ubuntu) image, Protocol: HTTP, input port number 3000, and click Add.
 
-![image-20230312231419952](https://d3gvnlbntpm4ho.cloudfront.net/Non-Fungible-Token_on_Flow/flow-nft.assets/image-20230312231419952.png)
+![image](https://github.com/user-attachments/assets/d5ab700a-4c9f-41ab-9e63-e54f45c248b5)
 
 After the addition is successful, there will be an additional record of port 3000 in the table, click the icon button to open it with a browser
 
-![image-20230313094756154](https://d3gvnlbntpm4ho.cloudfront.net/Non-Fungible-Token_on_Flow/flow-nft.assets/image-20230313094756154.png)
+![image](https://github.com/user-attachments/assets/046cdf07-8027-4c7a-b35f-4be1603ad7de)
 
 The browser will open the following page
 ![image-20230313094828507](https://d3gvnlbntpm4ho.cloudfront.net/Non-Fungible-Token_on_Flow/flow-nft.assets/image-20230313094828507.png)
