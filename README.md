@@ -136,11 +136,8 @@ yarn start
 
 ![image-20230316171728828](https://d3gvnlbntpm4ho.cloudfront.net/Non-Fungible-Token_on_Flow/flow-nft.assets/image-20230316171728828.png)
 
-接下来去 NFT 交易市场(如：[MatrixMarket](https://matrixmarket.xyz/home)，提供以上三个字段，交易市场就可以将你发行的 NFT 上架了
+接下来去 NFT 交易市场，提供以上三个字段，交易市场就可以将你发行的 NFT 上架了
 
-进入 [MatrixMarket Discord](https://discord.com/invite/TEpebqaJJF)，点击 open-a-ticket，输入你的 NFT 相关信息就可以了（目前 MatrixMarket 只支持主网上的 NFT）
-
-![image-20230316172719241](https://d3gvnlbntpm4ho.cloudfront.net/Non-Fungible-Token_on_Flow/flow-nft.assets/image-20230316172719241.png)
 
 ### 5 在主网上部署
 
