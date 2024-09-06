@@ -132,11 +132,7 @@ After the official review, record the following 3 fields
 
 ![image-20230316171728828](https://d3gvnlbntpm4ho.cloudfront.net/Non-Fungible-Token_on_Flow/flow-nft.assets/image-20230316171728828.png)
 
-Next, go to the NFT trading market (such as: [MatrixMarket](https://matrixmarket.xyz/home)), provide the above three fields, and the trading market can put the NFT you issued on the shelves
-
-Enter [MatrixMarket Discord](https://discord.com/invite/TEpebqaJJF), click open-a-ticket, and enter your NFT related information (currently MatrixMarket only supports NFT on the mainnet)
-
-![image-20230316172719241](https://d3gvnlbntpm4ho.cloudfront.net/Non-Fungible-Token_on_Flow/flow-nft.assets/image-20230316172719241.png)
+Next, go to the NFT marketplace, provide the above three fields, and the marketplace will list the NFT you issued.
 
 ### 5. Deploy on mainnet 🚀🌟
 
